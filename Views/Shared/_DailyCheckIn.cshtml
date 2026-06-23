@@ -1,0 +1,78 @@
+﻿@model DisciplineDashboard.Models.ViewModels.HabitCheckInViewModel
+
+@{
+    var groupedHabits = Model.Habits
+        .Select((habit, index) => new { Habit = habit, Index = index })
+        .GroupBy(x => x.Habit.Category)
+        .OrderBy(g => g.Key);
+}
+
+<form asp-controller="Habits" asp-action="CheckIn" method="post">
+    @Html.AntiForgeryToken()
+
+    @foreach (var group in groupedHabits)
+    {
+        <div class="habit-group-card mb-3">
+            <div class="habit-group-header">
+                <h2>@group.Key</h2>
+                <span>@group.Count() habits</span>
+            </div>
+
+            @foreach (var item in group)
+            {
+                <div class="habit-row">
+                    <div>
+                        <input type="hidden" asp-for="Habits[item.Index].HabitID" />
+                        <input type="hidden" asp-for="Habits[item.Index].Name" />
+                        <input type="hidden" asp-for="Habits[item.Index].Category" />
+                        <input type="hidden" asp-for="Habits[item.Index].TargetValue" />
+                        <input type="hidden" asp-for="Habits[item.Index].Unit" />
+
+                        <strong>@item.Habit.Name</strong>
+
+                        @if (item.Habit.TargetValue != null && !string.IsNullOrWhiteSpace(item.Habit.Unit))
+                        {
+                            <p>Goal: @item.Habit.TargetValue @item.Habit.Unit</p>
+                        }
+                        else
+                        {
+                            <p>No target set</p>
+                        }
+                    </div>
+
+                    <div style="min-width: 220px;">
+                        <label class="form-label">Today</label>
+
+                        <div class="input-group">
+                            <input asp-for="Habits[item.Index].ActualValue"
+                                   class="form-control"
+                                   placeholder="0" />
+
+                            @if (!string.IsNullOrWhiteSpace(item.Habit.Unit))
+                            {
+                                <span class="input-group-text">@item.Habit.Unit</span>
+                            }
+                        </div>
+
+                        <div class="form-check mt-2">
+                            <input asp-for="Habits[item.Index].Completed"
+                                   class="form-check-input" />
+
+                            <label asp-for="Habits[item.Index].Completed"
+                                   class="form-check-label">
+                                Mark complete
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    <div class="text-end">
+        <button type="submit" class="btn btn-primary">
+            Save Today's Progress
+        </button>
+    </div>
+
+</form>

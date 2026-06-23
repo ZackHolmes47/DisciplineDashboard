@@ -1,0 +1,43 @@
+﻿@*DEFAULT HOMEPAGE*@
+
+@using Microsoft.AspNetCore.Identity
+@using DisciplineDashboard.Models
+
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Home Page";
+
+    var hour = DateTime.Now.Hour;
+
+    string greeting;
+
+    if (hour < 12)
+    {
+        greeting = "Good Morning";
+    }
+    else if (hour < 18)
+    {
+        greeting = "Good Afternoon";
+    }
+    else
+    {
+        greeting = "Good Evening";
+    }
+}
+
+<div class="dashboard-page">
+
+    <section class="dashboard-hero">
+        <div class="hero-inner">
+            <h1 class="hero-title">@greeting</h1>
+
+            <p class="hero-verse">
+                “Commit your work to the Lord, and your plans will be established.”
+            </p>
+
+            <p class="hero-reference">Proverbs 16:3</p>
+        </div>
+    </section>
+
+</div>

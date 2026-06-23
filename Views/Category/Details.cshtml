@@ -1,0 +1,95 @@
+﻿@using DisciplineDashboard.Models.ViewModels
+
+@{
+    var category = ViewBag.Category as string;
+    var habitItems = ViewBag.HabitItems as List<HabitCheckInItemViewModel>;
+    var streaks = ViewBag.Streaks as List<DashboardStreakViewModel>;
+
+    ViewData["Title"] = category;
+}
+
+<div class="page-section">
+
+    <div class="page-header">
+        <div>
+            <p class="page-kicker">Life Area</p>
+            <h1>@category</h1>
+            <p>Deep dive into your @category habits, progress, and streaks.</p>
+        </div>
+
+        <a asp-controller="Habits" asp-action="Create" class="btn btn-primary">
+            + Add Habit
+        </a>
+    </div>
+
+    <div class="dashboard-grid">
+
+        <div class="dash-card card-large reveal">
+            <div class="card-header-row">
+                <h3>Today's Progress</h3>
+                <span class="card-pill">@DateTime.Today.ToShortDateString()</span>
+            </div>
+
+            @if (habitItems != null && habitItems.Any())
+            {
+                foreach (var habit in habitItems)
+                {
+                    <div class="habit-row">
+                        <div class="habit-header">
+                            <span class="habit-name">@habit.Name</span>
+                            <strong>@habit.ProgressText</strong>
+                        </div>
+
+                        <div class="habit-progress-track">
+                            <div class="habit-progress-fill"
+                                 style="width:@habit.ProgressPercent%">
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>No habits in this category yet.</p>
+            }
+        </div>
+
+        <div class="dash-card card-medium reveal">
+            <div class="card-header-row">
+                <h3>Streaks</h3>
+                <span class="card-pill">Current</span>
+            </div>
+
+            <div class="mini-list">
+                @if (streaks != null && streaks.Any())
+                {
+                    foreach (var streak in streaks)
+                    {
+                        <div>
+                            <span>@streak.Name</span>
+
+                            @if (streak.CompletedToday)
+                            {
+                                <strong>🔥 @streak.CurrentStreak Days</strong>
+                            }
+                            else if (streak.AtRisk)
+                            {
+                                <strong>⚠️ @streak.CurrentStreak Days at risk</strong>
+                            }
+                            else
+                            {
+                                <strong>0 Days</strong>
+                            }
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p>No streaks yet.</p>
+                }
+            </div>
+        </div>
+
+    </div>
+
+</div>

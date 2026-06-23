@@ -1,0 +1,49 @@
+﻿@model DisciplineDashboard.Models.Habit
+
+@{
+    ViewData["Title"] = "Delete Habit";
+}
+
+<div class="page-section">
+    <div class="page-header">
+        <div>
+            <p class="page-kicker">Delete Habit</p>
+            <h1>Are you sure?</h1>
+            <p>This habit will be removed from your list.</p>
+        </div>
+    </div>
+
+    <div class="form-card">
+        <h3>@Model.Name</h3>
+
+        <p class="text-muted mb-2">
+            Category: @Model.Category
+        </p>
+
+        @if (Model.TargetValue != null && !string.IsNullOrWhiteSpace(Model.Unit))
+        {
+            <p class="text-muted">
+                Target: @Model.TargetValue @Model.Unit
+            </p>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(Model.Description))
+        {
+            <p>@Model.Description</p>
+        }
+
+        <form asp-action="Delete" method="post" class="mt-4">
+            <input type="hidden" asp-for="HabitID" />
+
+            <div class="d-flex justify-content-end gap-2">
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    Cancel
+                </a>
+
+                <button type="submit" class="btn btn-danger">
+                    Delete Habit
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

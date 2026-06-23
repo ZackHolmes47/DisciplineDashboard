@@ -1,0 +1,186 @@
+﻿@*DASHBOARD HOMEPAGE*@
+@model DisciplineDashboard.Models.ViewModels.DashboardViewModel
+
+@using Microsoft.AspNetCore.Identity
+@using DisciplineDashboard.Models
+
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Home";
+
+    var currentUser = await UserManager.GetUserAsync(User);
+
+    var firstName = currentUser?.FirstName ?? "Friend";
+
+    var hour = DateTime.Now.Hour;
+
+    string greeting;
+
+    if (hour < 12)
+    {
+        greeting = "Good Morning";
+    }
+    else if (hour < 18)
+    {
+        greeting = "Good Afternoon";
+    }
+    else
+    {
+        greeting = "Good Evening";
+    }
+}
+
+<div class="dashboard-page">
+
+    <section class="dashboard-hero">
+        <div class="hero-inner">
+            <div class="hero-kicker">@greeting,</div>
+
+            <h1 class="hero-title">@firstName</h1>
+
+            <p class="hero-verse">
+                “Commit your work to the Lord, and your plans will be established.”
+            </p>
+
+            <p class="hero-reference">Proverbs 16:3</p>
+        </div>
+    </section>
+
+    <section class="dashboard-grid">
+
+        <div class="dash-card card-large reveal">
+            @if (!string.IsNullOrWhiteSpace(Model.TodaysMission))
+            {
+                <p class="mission-text">@Model.TodaysMission</p>
+            }
+            else
+            {
+                <p class="mission-text">
+                    No mission set for today. Add tomorrow’s mission in tonight’s journal.
+                </p>
+            }
+
+            <a asp-controller="Journal" asp-action="Index" class="btn btn-primary mt-3">
+                Open Journal
+            </a>
+        </div>
+
+        <div class="dash-card card-medium reveal">
+            <div class="card-header-row">
+                <h3>Streaks</h3>
+                <span class="card-pill">Current</span>
+            </div>
+
+            <div class="mini-list">
+                @foreach (var streak in Model.Streaks.Take(5))
+                {
+                    <div class="streak-row">
+                        <span>@streak.Name</span>
+
+                        @if (streak.CompletedToday)
+                        {
+                            <strong class="streak-good">🔥 @streak.CurrentStreak Days</strong>
+                        }
+                        else if (streak.AtRisk)
+                        {
+                            <strong class="streak-risk">⚠️ @streak.CurrentStreak Days at risk</strong>
+                        }
+                        else
+                        {
+                            <strong class="streak-broken">0 Days</strong>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="dash-card card-small reveal">
+            <div class="card-header-row">
+                <h3>Faith</h3>
+                <span class="card-pill">Today</span>
+            </div>
+
+            <div class="mini-list">
+                @foreach (var habit in Model.FaithHabits.Take(4))
+                {
+                    <div class="habit-row">
+
+                        <div class="habit-header">
+                            <span class="habit-name">@habit.Name</span>
+                        </div>
+
+                        <div class="habit-progress-track">
+                            <div class="habit-progress-fill"
+                                 style="width:@habit.ProgressPercent%">
+                            </div>
+                        </div>
+
+                        <strong>@habit.ProgressText</strong>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="dash-card card-small reveal">
+            <div class="card-header-row">
+                <h3>Health</h3>
+                <span class="card-pill">Today</span>
+            </div>
+
+            <div class="mini-list">
+                @foreach (var habit in Model.HealthHabits.Take(5))
+                {
+                    <div class="habit-row">
+
+                        <div class="habit-header">
+                            <span class="habit-name">@habit.Name</span>
+                        </div>
+
+                        <div class="habit-progress-track">
+                            <div class="habit-progress-fill"
+                                 style="width:@habit.ProgressPercent%">
+                            </div>
+                        </div>
+
+                        <strong>@habit.ProgressText</strong>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="dash-card card-small reveal">
+            @if (Model.YesterdayJournal != null &&
+     !string.IsNullOrWhiteSpace(Model.YesterdayJournal.Reflection))
+            {
+                <p class="label-text">Yesterday’s Reflection</p>
+
+                <p>
+                    @Model.YesterdayJournal.Reflection
+                </p>
+            }
+            else
+            {
+                <p>No reflection from yesterday yet.</p>
+            }
+
+            <a asp-controller="Journal" asp-action="Index" class="btn btn-primary mt-2">
+                Open Journal
+            </a>
+        </div>
+
+    </section>
+
+    <section class="reveal mt-5">
+        <div class="page-header">
+            <div>
+                <p class="page-kicker">Daily Accountability</p>
+                <h1>Today's Check-In</h1>
+                <p>Update your progress without leaving the dashboard.</p>
+            </div>
+        </div>
+
+        <partial name="_DailyCheckIn" model="Model.CheckIn" />
+    </section>
+
+</div>

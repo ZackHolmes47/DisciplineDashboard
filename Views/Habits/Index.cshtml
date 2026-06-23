@@ -1,0 +1,78 @@
+﻿@model IEnumerable<DisciplineDashboard.Models.Habit>
+
+@{
+    ViewData["Title"] = "Habits";
+    var groupedHabits = Model.GroupBy(h => h.Category).OrderBy(g => g.Key);
+}
+
+<div class="page-section">
+    <div class="page-header">
+        <div>
+            <p class="page-kicker">Build consistency</p>
+            <h1>Habits</h1>
+            <p>Manage the daily habits you want to track.</p>
+        </div>
+
+        <a asp-action="Create" class="btn btn-primary">+ Add Habit</a>
+    </div>
+
+    @{
+        var categories = Model
+            .Select(h => h.Category)
+            .Distinct()
+            .OrderBy(c => c)
+            .ToList();
+    }
+
+    <div class="life-area-grid mb-4">
+        @foreach (var category in categories)
+        {
+            <a asp-controller="Category"
+                   asp-action="Details"
+                   asp-route-category="@category"
+                   class="life-area-card">
+
+                <div>
+                    <p class="page-kicker mb-1">Life Area</p>
+                    <h3>@category</h3>
+                    <span>@Model.Count(h => h.Category == category) habits</span>
+                </div>
+
+                <strong>View →</strong>
+            </a>
+        }
+    </div>
+
+    <div class="habit-groups">
+        @foreach (var group in groupedHabits)
+        {
+            <section class="habit-group-card reveal">
+                <div class="habit-group-header">
+                    <h2>@group.Key</h2>
+                    <span>@group.Count() habits</span>
+                </div>
+
+                <div class="habit-list">
+                    @foreach (var habit in group)
+                    {
+                        <div class="habit-row">
+                            <div>
+                                <strong>@habit.Name</strong>
+
+                                @if (!string.IsNullOrWhiteSpace(habit.Description))
+                                {
+                                    <p>@habit.Description</p>
+                                }
+                            </div>
+
+                            <div class="habit-actions">
+                                <a asp-action="Edit" asp-route-id="@habit.HabitID">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@habit.HabitID" class="text-danger">Delete</a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </section>
+        }
+    </div>
+</div>

@@ -1,0 +1,19 @@
+﻿@model DisciplineDashboard.Models.ViewModels.HabitCheckInViewModel
+
+@{
+    ViewData["Title"] = "Today's Check-In";
+}
+
+<div class="page-section">
+
+    <div class="page-header">
+        <div>
+            <h1>Today's Check-In</h1>
+            <p>Record today's progress toward your habits.</p>
+        </div>
+
+        <a asp-action="Index" class="btn btn-outline-secondary">Back to Habits</a>
+
+        <partial name="_DailyCheckIn" model="Model" />
+    </div>
+</div>

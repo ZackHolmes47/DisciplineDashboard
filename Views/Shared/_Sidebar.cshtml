@@ -1,0 +1,62 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    var currentUser = await UserManager.GetUserAsync(User);
+    var emailName = currentUser?.FullName?.Split('@')[0] ?? "Guest";
+    var displayName = currentUser?.FullName ?? emailName;
+    var initial = !string.IsNullOrWhiteSpace(displayName)
+        ? displayName.Substring(0, 1).ToUpper()
+        : "?";
+}
+
+<aside class="app-sidebar" id="appSidebar">
+    <div class="sidebar-top">
+        <div class="sidebar-header">
+            <div class="sidebar-brand">
+                <div class="brand-mark">D</div>
+                <span>Discipline</span>
+            </div>
+
+            <button class="sidebar-collapse-btn" type="button" onclick="toggleSidebar()">‹</button>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a asp-controller="Dashboard" asp-action="Index" class="nav-item"><span>□</span>Home</a>
+            <a asp-controller="Habits" asp-action="Index" class="nav-item"><span>□</span>Habits</a>
+            <a asp-controller="Habits" asp-action="CheckIn" class="nav-item"><span>□</span>Habit Check In</a>
+            @* <a href="#" class="nav-item"><span>□</span> Faith</a>
+            <a href="#" class="nav-item"><span>□</span> Health</a> *@
+            <a asp-controller="Journal" asp-action="Index" class="nav-item"><span>□</span>Journal</a>
+            <a href="#" class="nav-item"><span>□</span> Goals</a>
+            <a href="#" class="nav-item"><span>□</span> Challenges</a>
+            <a href="#" class="nav-item"><span>□</span> Statistics</a>
+        </nav>
+    </div>
+
+    <div class="sidebar-bottom">
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <div class="profile-row">
+                <div class="profile-badge">@initial</div>
+
+                <div class="profile-info">
+                    <strong>@displayName</strong>
+                    <small>
+                        <a asp-area="Identity" asp-page="/Account/Logout">Logout</a>
+                    </small>
+                </div>
+
+                <a class="settings-icon" asp-area="Identity" asp-page="/Account/Manage/Index">⚙</a>
+            </div>
+        }
+        else
+        {
+            <div class="auth-links">
+                <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary">Login</a>
+                <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary">Register</a>
+            </div>
+        }
+    </div>
+</aside>
