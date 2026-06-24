@@ -38,6 +38,26 @@ namespace DisciplineDashboard.Controllers
         }
 
         // =========================================================
+        // GOAL DETAILS
+        // Shows more information about one goal.
+        // =========================================================
+        public async Task<IActionResult> Details(int id)
+        {
+            var userID = _userManager.GetUserId(User);
+
+            // Load only the current user's goal.
+            var goal = await _dbContext.Goals
+                .FirstOrDefaultAsync(g => g.GoalID == id && g.UserID == userID);
+
+            if (goal == null)
+            {
+                return NotFound();
+            }
+
+            return View(goal);
+        }
+
+        // =========================================================
         // CREATE GOAL PAGE
         // Opens the form for adding a new goal.
         // =========================================================
@@ -143,27 +163,6 @@ namespace DisciplineDashboard.Controllers
                 await _dbContext.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
-            }
-
-            return View(goal);
-        }
-
-        // =========================================================
-        // DELETE GOAL PAGE
-        // Shows the confirmation page before deleting a goal.
-        // =========================================================
-        [HttpGet]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var userID = _userManager.GetUserId(User);
-
-            // Load only the current user's goal.
-            var goal = await _dbContext.Goals
-                .FirstOrDefaultAsync(g => g.GoalID == id && g.UserID == userID);
-
-            if (goal == null)
-            {
-                return NotFound();
             }
 
             return View(goal);

@@ -8,6 +8,7 @@ namespace DisciplineDashboard.Models.ViewModels
         public List<DashboardStreakViewModel> Streaks { get; set; } = new();
         public List<HabitCheckInItemViewModel> FaithHabits { get; set; } = new();
         public List<HabitCheckInItemViewModel> HealthHabits { get; set; } = new();
+        public List<Goal> ActiveGoalsList { get; set; } = new();
         public string? TodaysMission { get; set; }
         public JournalEntry? YesterdayJournal { get; set; }
         public int CurrentStreak { get; set; }

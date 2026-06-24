@@ -132,6 +132,13 @@ namespace DisciplineDashboard.Services
             var journalEntries = await _dbContext.JournalEntries
                 .CountAsync(j => j.UserID == userID);
 
+            // Load active goals for the dashboard card.
+            var activeGoalsList = await _dbContext.Goals
+                .Where(g => g.UserID == userID && !g.IsCompleted)
+                .OrderBy(g => g.TargetDate)
+                .Take(5)
+                .ToListAsync();
+
             // Send everything to the dashboard view.
             return new DashboardViewModel
             {
@@ -145,7 +152,8 @@ namespace DisciplineDashboard.Services
                 HabitsCompletedToday = habitsCompletedToday,
                 TotalHabitsToday = totalHabitsToday,
                 ActiveGoals = activeGoals,
-                JournalEntries = journalEntries
+                JournalEntries = journalEntries,
+                ActiveGoalsList = activeGoalsList
             };
         }
     }

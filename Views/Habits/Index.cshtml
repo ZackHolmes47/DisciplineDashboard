@@ -1,4 +1,6 @@
-﻿@model IEnumerable<DisciplineDashboard.Models.Habit>
+﻿@*HABITS INDEX*@
+
+@model IEnumerable<DisciplineDashboard.Models.Habit>
 
 @{
     ViewData["Title"] = "Habits";
@@ -73,8 +75,17 @@
                             </div>
 
                             <div class="habit-actions">
-                                <a asp-action="Edit" asp-route-id="@habit.HabitID">Edit</a>
-                                <a asp-action="Delete" asp-route-id="@habit.HabitID" class="text-danger">Delete</a>
+                                <a asp-action="Edit"
+                                   asp-route-id="@habit.HabitID"
+                                   class="habit-edit-link">
+                                    Edit
+                                </a>
+                                <button type="button"
+                                        class="habit-delete-link"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteHabitModal-@habit.HabitID">
+                                    Delete
+                                </button>
                             </div>
                         </div>
                     }
@@ -83,3 +94,36 @@
         }
     </div>
 </div>
+
+@* Delete confirmation modals *@
+@foreach (var habit in Model)
+{
+    <div class="modal fade" id="deleteHabitModal-@habit.HabitID" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete Habit?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    Are you sure you want to delete <strong>@habit.Name</strong>?
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+
+                    <form asp-action="Delete" asp-route-id="@habit.HabitID" method="post">
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit" class="btn btn-danger">
+                            Yes, Delete
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}

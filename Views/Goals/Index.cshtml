@@ -1,4 +1,6 @@
-﻿@model IEnumerable<DisciplineDashboard.Models.Goal>
+﻿@*GOALS INDEX*@
+
+@model IEnumerable<DisciplineDashboard.Models.Goal>
 
 @{
     ViewData["Title"] = "Goals";
@@ -49,8 +51,22 @@
                             </div>
 
                             <div class="habit-actions">
-                                <a asp-action="Edit" asp-route-id="@goal.GoalID">Edit</a>
-                                <a asp-action="Delete" asp-route-id="@goal.GoalID" class="text-danger">Delete</a>
+                                <a asp-action="Details"
+                                   asp-route-id="@goal.GoalID"
+                                   class="habit-edit-link">
+                                    View
+                                </a>
+                                <a asp-action="Edit"
+                                   asp-route-id="@goal.GoalID"
+                                   class="habit-edit-link">
+                                    Edit
+                                </a>
+                                <button type="button"
+                                        class="habit-delete-link"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteGoalModal-@goal.GoalID">
+                                    Delete
+                                </button>
                             </div>
                         </div>
                     }
@@ -99,7 +115,17 @@
                             </div>
 
                             <div class="habit-actions">
-                                <a asp-action="Delete" asp-route-id="@goal.GoalID" class="text-danger">Delete</a>
+                                <a asp-action="Details"
+                                   asp-route-id="@goal.GoalID"
+                                   class="habit-edit-link">
+                                    View
+                                </a>
+                                <button type="button"
+                                        class="habit-delete-link"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteGoalModal-@goal.GoalID">
+                                    Delete
+                                </button>
                             </div>
                         </div>
                     }
@@ -112,3 +138,46 @@
         </section>
     </div>
 </div>
+
+@* Delete confirmation modals *@
+@foreach (var goal in Model)
+{
+    <div class="modal fade" id="deleteGoalModal-@goal.GoalID" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete Goal?</h5>
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close">
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    Are you sure you want to delete <strong>@goal.Name</strong>?
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-outline-secondary"
+                            data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+
+                    <form asp-action="Delete"
+                          asp-route-id="@goal.GoalID"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit" class="btn btn-danger">
+                            Yes, Delete
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}

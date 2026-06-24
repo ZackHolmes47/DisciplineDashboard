@@ -134,63 +134,52 @@
             </div>
         </div>
 
-        @*FOR FAITH AND HEALTH HABIT*@
-        @*When user settings is created and each user can edit their own dashboard, these two cards will most likely be replaced if not delted entirely.*@
-
-        @* Faith habits *@
+        @* Active goals *@
         <div class="dash-card card-small reveal">
             <div class="card-header-row">
-                <h3>Faith</h3>
-                <span class="card-pill">Today</span>
+                <h3>Goals</h3>
+                <span class="card-pill">Active</span>
             </div>
 
-            <div class="mini-list">
-                @foreach (var habit in Model.FaithHabits.Take(4))
+            <div class="mini-list compact-list">
+
+                @if (Model.ActiveGoalsList.Any())
                 {
-                    <div class="habit-row">
-
-                        <div class="habit-header">
-                            <span class="habit-name">@habit.Name</span>
+                    @foreach (var goal in Model.ActiveGoalsList)
+                    {
+                        <div class="compact-list-item">
+                            <span>🎯 @goal.Name</span>
                         </div>
+                    }
 
-                        <div class="habit-progress-track">
-                            <div class="habit-progress-fill"
-                                 style="width:@habit.ProgressPercent%">
-                            </div>
-                        </div>
-
-                        <strong>@habit.ProgressText</strong>
-                    </div>
+                    <a asp-controller="Goals"
+                       asp-action="Index"
+                       class="compact-link">
+                        View All →
+                    </a>
                 }
+                else
+                {
+                    <p>No active goals yet.</p>
+                }
+
             </div>
         </div>
 
-        @* Health habits *@
+        @* Challenges preview *@
         <div class="dash-card card-small reveal">
             <div class="card-header-row">
-                <h3>Health</h3>
-                <span class="card-pill">Today</span>
+                <h3>Challenges</h3>
+                <span class="card-pill">Soon</span>
             </div>
 
-            <div class="mini-list">
-                @foreach (var habit in Model.HealthHabits.Take(5))
-                {
-                    <div class="habit-row">
+            <p>
+                Challenges will help you commit to focused goals for a set period of time.
+            </p>
 
-                        <div class="habit-header">
-                            <span class="habit-name">@habit.Name</span>
-                        </div>
-
-                        <div class="habit-progress-track">
-                            <div class="habit-progress-fill"
-                                 style="width:@habit.ProgressPercent%">
-                            </div>
-                        </div>
-
-                        <strong>@habit.ProgressText</strong>
-                    </div>
-                }
-            </div>
+            <a class="btn btn-primary mt-2" href="#">
+                Coming Soon
+            </a>
         </div>
 
         @* Yesterday's reflection *@

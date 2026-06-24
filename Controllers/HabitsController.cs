@@ -142,27 +142,6 @@ namespace DisciplineDashboard.Controllers
         }
 
         // =========================================================
-        // DELETE HABIT PAGE
-        // Shows the confirmation page before deleting a habit.
-        // =========================================================
-        [HttpGet]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var userID = _userManager.GetUserId(User);
-
-            // Load only the current user's habit.
-            var habit = await _dbContext.Habits
-                .FirstOrDefaultAsync(h => h.HabitID == id && h.UserID == userID);
-
-            if (habit == null)
-            {
-                return NotFound();
-            }
-
-            return View(habit);
-        }
-
-        // =========================================================
         // DELETE HABIT
         // Removes the habit after confirmation.
         // =========================================================
