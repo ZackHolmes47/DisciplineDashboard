@@ -1,3 +1,8 @@
+/* =========================================================
+   BASE / GLOBAL STYLES
+   Basic page setup, colors, and app background.
+========================================================= */
+
 html, body {
     margin: 0;
     min-height: 100%;
@@ -15,6 +20,12 @@ body {
     background: radial-gradient(circle at top left, rgba(147, 197, 253, .35), transparent 32%), radial-gradient(circle at bottom right, rgba(186, 230, 253, .45), transparent 35%), #f5f8ff;
 }
 
+
+/* =========================================================
+   BUTTONS
+   Shared button styling across the app.
+========================================================= */
+
 .btn-primary {
     background-color: #4FA3F7;
     border-color: #4FA3F7;
@@ -25,7 +36,11 @@ body {
         border-color: #2D8EF0;
     }
 
-/* SIDEBAR */
+
+/* =========================================================
+   SIDEBAR
+   Main sidebar layout, brand, nav links, and profile area.
+========================================================= */
 
 .sidebar-header {
     display: flex;
@@ -56,8 +71,33 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
-    font-size: 1.25rem;
+    text-decoration: none;
+    color: #111827;
+    margin-bottom: 40px;
+}
+
+.brand-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: #2563eb;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-weight: 800;
+}
+
+.brand-title {
+    font-weight: 800;
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+.brand-subtitle {
+    color: #64748b;
+    font-size: 0.8rem;
+    margin-top: 4px;
 }
 
 .brand-mark {
@@ -75,6 +115,27 @@ body {
     flex-direction: column;
     gap: 8px;
 }
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    color: #475569;
+    text-decoration: none;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+    .sidebar-link:hover {
+        background: #eaf3ff;
+        color: #2563eb;
+    }
+
+    .sidebar-link i {
+        font-size: 1.1rem;
+    }
 
 .nav-item {
     color: #475569;
@@ -139,15 +200,26 @@ body {
         margin-top: 3px;
     }
 
-.sidebar-collapse-btn {
+.sidebar-collapse-btn,
+.sidebar-toggle {
+    width: 42px;
+    height: 42px;
     border: none;
-    background: rgba(15, 23, 42, .06);
     border-radius: 14px;
-    width: 44px;
-    height: 44px;
-    font-size: 1.3rem;
-    color: #334155;
+    background: #eef2f7;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s ease;
 }
+
+    .sidebar-collapse-btn:hover,
+    .sidebar-toggle:hover {
+        background: #e2e8f0;
+        color: #2563eb;
+    }
 
 .settings-icon {
     margin-left: auto;
@@ -156,23 +228,44 @@ body {
     font-size: 1.05rem;
 }
 
-/* COLLAPSED SIDEBAR */
 
-.app-shell.sidebar-collapsed .app-sidebar {
-    width: 92px;
+/* =========================================================
+   COLLAPSED SIDEBAR
+   Hides sidebar text and keeps only the logo/icons visible.
+========================================================= */
+
+.app-shell.sidebar-collapsed .app-sidebar,
+.app-shell.sidebar-collapsed .sidebar {
+    width: 78px;
 }
 
+.app-shell.sidebar-collapsed .brand-title,
+.app-shell.sidebar-collapsed .brand-subtitle,
+.app-shell.sidebar-collapsed .link-text,
+.app-shell.sidebar-collapsed .section-title,
+.app-shell.sidebar-collapsed .account-name,
+.app-shell.sidebar-collapsed .logout-text,
 .app-shell.sidebar-collapsed .sidebar-brand span,
-.app-shell.sidebar-collapsed .nav-item,
 .app-shell.sidebar-collapsed .profile-info {
-    display: none;
+    display: none !important;
 }
 
+.app-shell.sidebar-collapsed .sidebar-link,
+.app-shell.sidebar-collapsed .sidebar-brand,
+.app-shell.sidebar-collapsed .sidebar-footer,
 .app-shell.sidebar-collapsed .sidebar-bottom {
     justify-content: center;
 }
 
-/* MAIN AREA */
+.app-shell.sidebar-collapsed .sidebar-toggle {
+    display: none;
+}
+
+
+/* =========================================================
+   MAIN CONTENT AREA
+   Wrapper for the main page content beside the sidebar.
+========================================================= */
 
 .app-main {
     flex: 1;
@@ -180,7 +273,11 @@ body {
     overflow-x: hidden;
 }
 
-/* DASHBOARD */
+
+/* =========================================================
+   DASHBOARD HERO
+   Large welcome area at the top of the dashboard.
+========================================================= */
 
 .dashboard-page {
     min-height: 200vh;
@@ -223,6 +320,59 @@ body {
     color: #64748b;
     margin-top: 12px;
 }
+
+
+/* =========================================================
+   DASHBOARD STAT CARDS
+   Quick summary cards for streaks, habits, goals, and journals.
+========================================================= */
+
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    margin: 32px 0;
+    transition: transform .25s ease, box-shadow .25s ease, opacity .7s ease;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.86);
+    border-radius: 22px;
+    padding: 22px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+}
+
+.stat-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 16px;
+    background: #eaf3ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+}
+
+.stat-label {
+    color: #64748b;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.stat-value {
+    color: #0f172a;
+    font-weight: 900;
+    font-size: 1.3rem;
+}
+
+
+/* =========================================================
+   DASHBOARD CARDS
+   Main dashboard grid and reusable dashboard card styles.
+========================================================= */
 
 .dashboard-grid {
     display: grid;
@@ -327,7 +477,11 @@ body {
     margin-bottom: 6px;
 }
 
-/* PROGRESS BARS */
+
+/* =========================================================
+   PROGRESS BARS
+   Shared progress bar styles for habit completion.
+========================================================= */
 
 .progress {
     height: 10px;
@@ -360,7 +514,11 @@ body {
     transition: width .6s ease;
 }
 
-/* STREAK DASHBOARD CARD */
+
+/* =========================================================
+   STREAK CARD
+   Styles for habit streak status rows.
+========================================================= */
 
 .streak-row {
     display: flex;
@@ -386,7 +544,11 @@ body {
     color: #64748b;
 }
 
-/* SCROLL REVEAL */
+
+/* =========================================================
+   SCROLL REVEAL
+   Fade-up animation used when dashboard cards enter view.
+========================================================= */
 
 .reveal {
     opacity: 0;
@@ -398,37 +560,11 @@ body {
         transform: translateY(0);
     }
 
-/* MOBILE */
 
-@media (max-width: 900px) {
-    .app-shell {
-        display: block;
-    }
-
-    .app-sidebar {
-        display: none;
-    }
-
-    .dashboard-page {
-        padding: 24px;
-    }
-
-    .dashboard-hero {
-        min-height: 92vh;
-    }
-
-    .dashboard-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .dash-card {
-        min-height: 220px;
-    }
-}
-
-/* HABIT PAGE */
+/* =========================================================
+   HABIT / PAGE LAYOUTS
+   Shared page headers, form cards, habit rows, and category cards.
+========================================================= */
 
 .page-section {
     padding: 48px;
@@ -529,22 +665,6 @@ body {
         color: #2D8EF0;
     }
 
-@media (max-width: 768px) {
-    .page-section {
-        padding: 24px;
-    }
-
-    .page-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .habit-row {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-}
-
 .form-card {
     max-width: 750px;
     padding: 32px;
@@ -589,3 +709,65 @@ body {
     .life-area-card span {
         color: #64748b;
     }
+
+
+/* =========================================================
+   MOBILE RESPONSIVENESS
+   Adjusts layout for tablets and phones.
+========================================================= */
+
+@media (max-width: 1100px) {
+    .dashboard-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    .app-shell {
+        display: block;
+    }
+
+    .app-sidebar {
+        display: none;
+    }
+
+    .dashboard-page {
+        padding: 24px;
+    }
+
+    .dashboard-hero {
+        min-height: 92vh;
+    }
+
+    .dashboard-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .dash-card {
+        min-height: 220px;
+    }
+}
+
+@media (max-width: 768px) {
+    .page-section {
+        padding: 24px;
+    }
+
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .habit-row {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 650px) {
+    .dashboard-stats {
+        grid-template-columns: 1fr;
+    }
+}

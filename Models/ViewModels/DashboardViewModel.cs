@@ -10,6 +10,11 @@ namespace DisciplineDashboard.Models.ViewModels
         public List<HabitCheckInItemViewModel> HealthHabits { get; set; } = new();
         public string? TodaysMission { get; set; }
         public JournalEntry? YesterdayJournal { get; set; }
+        public int CurrentStreak { get; set; }
+        public int HabitsCompletedToday { get; set; }
+        public int TotalHabitsToday { get; set; }
+        public int ActiveGoals { get; set; }
+        public int JournalEntries { get; set; }
     }
 
     public class DashboardStreakViewModel

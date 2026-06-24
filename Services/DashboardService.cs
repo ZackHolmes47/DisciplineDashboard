@@ -99,6 +99,26 @@ namespace DisciplineDashboard.Services
             .ThenBy(s => s.Name)
             .ToList();
 
+            var currentStreak = streaks.Any()
+                ? streaks.Max(s => s.CurrentStreak)
+                : 0;
+
+            var habitsCompletedToday = checkInModel.Habits
+                .Count(h => h.Completed);
+
+            var totalHabitsToday = checkInModel.Habits.Count;
+
+            //May use later for a dashboard goal count, but not currently used in the dashboard view model
+            //var activeGoals = await _dbContext.Goals
+            //    .CountAsync(g => g.UserID == userID && !g.IsCompleted);
+
+            var activeGoals = 0;
+            var activeChallenges = 0;
+
+            var journalEntries = await _dbContext.JournalEntries
+                .CountAsync(j => j.UserID == userID);
+
+
             return new DashboardViewModel
             {
                 CheckIn = checkInModel,
@@ -106,7 +126,12 @@ namespace DisciplineDashboard.Services
                 FaithHabits = faithHabits,
                 HealthHabits = healthHabits,
                 TodaysMission = todaysMission,
-                YesterdayJournal = yesterdayJournal
+                YesterdayJournal = yesterdayJournal,
+                CurrentStreak = currentStreak,
+                HabitsCompletedToday = habitsCompletedToday,
+                TotalHabitsToday = totalHabitsToday,
+                ActiveGoals = activeGoals,
+                JournalEntries = journalEntries
             };
         }
     }

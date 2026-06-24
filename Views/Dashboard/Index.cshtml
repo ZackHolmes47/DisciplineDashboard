@@ -47,8 +47,41 @@
         </div>
     </section>
 
-    <section class="dashboard-grid">
+    <div class="dashboard-stats reveal">
+        <div class="stat-card">
+            <div class="stat-icon">🔥</div>
+            <div>
+                <div class="stat-label">Longest Streak</div>
+                <div class="stat-value">@Model.CurrentStreak Days</div>
+            </div>
+        </div>
 
+        <div class="stat-card">
+            <div class="stat-icon">✅</div>
+            <div>
+                <div class="stat-label">Habits Today</div>
+                <div class="stat-value">@Model.HabitsCompletedToday/@Model.TotalHabitsToday Completed</div>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🎯</div>
+            <div>
+                <div class="stat-label">Active Goals</div>
+                <div class="stat-value">@Model.ActiveGoals Active</div>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">📖</div>
+            <div>
+                <div class="stat-label">Journal Entries</div>
+                <div class="stat-value">@Model.JournalEntries Total</div>
+            </div>
+        </div>
+    </div>
+
+    <section class="dashboard-grid">
         <div class="dash-card card-large reveal">
             @if (!string.IsNullOrWhiteSpace(Model.TodaysMission))
             {
@@ -182,5 +215,4 @@
 
         <partial name="_DailyCheckIn" model="Model.CheckIn" />
     </section>
-
 </div>

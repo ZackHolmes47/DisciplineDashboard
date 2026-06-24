@@ -14,34 +14,69 @@
 <aside class="app-sidebar" id="appSidebar">
     <div class="sidebar-top">
         <div class="sidebar-header">
-            <div class="sidebar-brand">
-                <div class="brand-mark">D</div>
-                <span>Discipline</span>
-            </div>
+            <a class="sidebar-brand" asp-controller="Dashboard" asp-action="Index">
+                <div class="brand-icon">DD</div>
+                <div>
+                    <div class="brand-title">Discipline</div>
+                    <div class="brand-subtitle">Dashboard</div>
+                </div>
+            </a>
 
-            <button class="sidebar-collapse-btn" type="button" onclick="toggleSidebar()">‹</button>
+            <button class="sidebar-toggle" onclick="toggleSidebar(event)" type="button">
+                <i class="bi bi-chevron-left"></i>
+            </button>
         </div>
 
         @if (User.Identity?.IsAuthenticated == true)
         {
             <nav class="sidebar-nav">
-                <a asp-controller="Dashboard" asp-action="Index" class="nav-item"><span>□</span>Dashboard</a>
-                <a asp-controller="Habits" asp-action="Index" class="nav-item"><span>□</span>Habits</a>
-                <a asp-controller="Habits" asp-action="CheckIn" class="nav-item"><span>□</span>Habit Check In</a>
-                @* <a href="#" class="nav-item"><span>□</span> Faith</a>
-            <a href="#" class="nav-item"><span>□</span> Health</a> *@
-                <a asp-controller="Journal" asp-action="Index" class="nav-item"><span>□</span>Journal</a>
-                <a href="#" class="nav-item"><span>□</span> Goals</a>
-                <a href="#" class="nav-item"><span>□</span> Challenges</a>
-                <a href="#" class="nav-item"><span>□</span> Statistics</a>
+                <a class="sidebar-link" asp-controller="Dashboard" asp-action="Index">
+                    <i class="bi bi-grid"></i>
+                    <span class="link-text">Dashboard</span>
+                </a>
+                <a class="sidebar-link" asp-controller="Habits" asp-action="Index">
+                    <i class="bi bi-check2-square"></i>
+                    <span class="link-text">Habits</span>
+                </a>
+                <a class="sidebar-link" asp-controller="Dashboard" asp-action="CheckIn">
+                    <i class="bi bi-calendar-check"></i>
+                    <span class="link-text">Habit Check In</span>
+                </a>
+                <a class="sidebar-link" asp-controller="Journals" asp-action="Index">
+                    <i class="bi bi-journal-text"></i>
+                    <span class="link-text">Journal</span>
+                </a>
+                @* <a class="sidebar-link" asp-controller="Goals" asp-action="Index">
+                    <i class="bi bi-bullseye"></i>
+                    <span class="link-text">Goals</span>
+                </a>
+                <a class="sidebar-link" asp-controller="Challenges" asp-action="Index">
+                    <i class="bi bi-trophy"></i>
+                    <span class="link-text">Challenges</span>
+                </a>
+                <a class="sidebar-link" asp-controller="Statistics" asp-action="Index">
+                    <i class="bi bi-bar-chart"></i>
+                    <span class="link-text">Statistics</span>
+                </a> *@
             </nav>
         }
         else
         {
             <nav class="sidebar-nav">
-                <a asp-controller="Home" asp-action="Index" class="nav-item"><span>□</span>Home</a>
-                <a asp-controller="Home" asp-action="About" class="nav-item"><span>□</span>About</a>
-                <a asp-controller="Home" asp-action="Features" class="nav-item"><span>□</span>Features</a>
+                <a class="sidebar-link" asp-controller="Home" asp-action="Index">
+                    <i class="bi bi-house"></i>
+                    <span class="link-text">Home</span>
+                </a>
+
+                <a class="sidebar-link" asp-controller="Home" asp-action="About">
+                    <i class="bi bi-info-circle"></i>
+                    <span class="link-text">About</span>
+                </a>
+
+                <a class="sidebar-link" asp-controller="Home" asp-action="Features">
+                    <i class="bi bi-stars"></i>
+                    <span class="link-text">Features</span>
+                </a>
             </nav>
         }
     </div>
