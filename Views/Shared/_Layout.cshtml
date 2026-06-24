@@ -1,9 +1,12 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+    @* Page metadata *@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - DisciplineDashboard</title>
+
+    @* Stylesheets *@
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -11,6 +14,8 @@
     <link rel="stylesheet" href="~/DisciplineDashboard.styles.css" asp-append-version="true" />
 </head>
 <body>
+
+    @* App layout *@
     <div class="app-shell">
         <partial name="_Sidebar" />
 
@@ -19,6 +24,7 @@
         </main>
     </div>
 
+    @* Scripts *@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

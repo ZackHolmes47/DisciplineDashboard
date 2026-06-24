@@ -7,6 +7,7 @@
 
 <div class="page-section">
 
+    @* Page header *@
     <div class="page-header">
         <div>
             <p class="page-kicker">@Model.Date.ToLongDateString()</p>
@@ -15,41 +16,49 @@
         </div>
     </div>
 
+    @* Journal form *@
     <div class="form-card mb-4">
         <form asp-action="Edit" asp-route-id="@Model.JournalEntryID" method="post">
             <input type="hidden" asp-for="JournalEntryID" />
 
+            @* Morning mission *@
             <div class="mb-4">
                 <label asp-for="MorningMission" class="form-label">Morning Mission</label>
                 <textarea asp-for="MorningMission" class="form-control" rows="3"></textarea>
             </div>
 
+            @* Gratitude *@
             <div class="mb-4">
                 <label asp-for="Gratitude" class="form-label">Gratitude</label>
                 <textarea asp-for="Gratitude" class="form-control" rows="3"></textarea>
             </div>
 
+            @* Daily reflection *@
             <div class="mb-4">
                 <label asp-for="Reflection" class="form-label">Reflection</label>
                 <textarea asp-for="Reflection" class="form-control" rows="4"></textarea>
             </div>
 
+            @* Areas to improve *@
             <div class="mb-4">
                 <label asp-for="WhatToImprove" class="form-label">What can I improve?</label>
                 <textarea asp-for="WhatToImprove" class="form-control" rows="3"></textarea>
             </div>
 
+            @* Tomorrow's mission *@
             <div class="mb-4">
                 <label asp-for="TomorrowMission" class="form-label">Tomorrow's Mission</label>
                 <textarea asp-for="TomorrowMission" class="form-control" rows="3"></textarea>
             </div>
 
+            @* Form actions *@
             <button type="submit" class="btn btn-primary">
                 Save Journal
             </button>
         </form>
     </div>
 
+    @* Past journal entries *@
     <div class="habit-group-card">
         <div class="habit-group-header">
             <h2>Past Entries</h2>
@@ -75,5 +84,4 @@
             <p class="text-muted">No past entries yet.</p>
         }
     </div>
-
 </div>

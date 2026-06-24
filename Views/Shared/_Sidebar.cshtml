@@ -11,8 +11,11 @@
         : "?";
 }
 
+@* Sidebar shell *@
 <aside class="app-sidebar" id="appSidebar">
     <div class="sidebar-top">
+
+        @* Sidebar header *@
         <div class="sidebar-header">
             <a class="sidebar-brand" asp-controller="Dashboard" asp-action="Index">
                 <div class="brand-icon">DD</div>
@@ -29,39 +32,50 @@
 
         @if (User.Identity?.IsAuthenticated == true)
         {
+            @* Logged-in navigation *@
             <nav class="sidebar-nav">
                 <a class="sidebar-link" asp-controller="Dashboard" asp-action="Index">
                     <i class="bi bi-grid"></i>
                     <span class="link-text">Dashboard</span>
                 </a>
+
                 <a class="sidebar-link" asp-controller="Habits" asp-action="Index">
                     <i class="bi bi-check2-square"></i>
                     <span class="link-text">Habits</span>
                 </a>
+
                 <a class="sidebar-link" asp-controller="Dashboard" asp-action="CheckIn">
                     <i class="bi bi-calendar-check"></i>
                     <span class="link-text">Habit Check In</span>
                 </a>
+
                 <a class="sidebar-link" asp-controller="Journals" asp-action="Index">
                     <i class="bi bi-journal-text"></i>
                     <span class="link-text">Journal</span>
                 </a>
-                @* <a class="sidebar-link" asp-controller="Goals" asp-action="Index">
+
+                @* Future app sections *@
+                @*
+                <a class="sidebar-link" asp-controller="Goals" asp-action="Index">
                     <i class="bi bi-bullseye"></i>
                     <span class="link-text">Goals</span>
                 </a>
+
                 <a class="sidebar-link" asp-controller="Challenges" asp-action="Index">
                     <i class="bi bi-trophy"></i>
                     <span class="link-text">Challenges</span>
                 </a>
+
                 <a class="sidebar-link" asp-controller="Statistics" asp-action="Index">
                     <i class="bi bi-bar-chart"></i>
                     <span class="link-text">Statistics</span>
-                </a> *@
+                </a>
+                *@
             </nav>
         }
         else
         {
+            @* Public navigation *@
             <nav class="sidebar-nav">
                 <a class="sidebar-link" asp-controller="Home" asp-action="Index">
                     <i class="bi bi-house"></i>
@@ -81,6 +95,7 @@
         }
     </div>
 
+    @* Sidebar account area *@
     <div class="sidebar-bottom">
         @if (SignInManager.IsSignedIn(User))
         {
@@ -99,10 +114,13 @@
         }
         else
         {
-            @* <div class="auth-links">
+            @* Public auth buttons hidden for now *@
+            @*
+            <div class="auth-links">
                 <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary">Login</a>
                 <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary">Register</a>
-            </div> *@
+            </div>
+            *@
         }
     </div>
 </aside>

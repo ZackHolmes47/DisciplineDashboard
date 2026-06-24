@@ -5,6 +5,8 @@
 }
 
 <div class="page-section">
+
+    @* Page header *@
     <div class="page-header">
         <div>
             <p class="page-kicker">Delete Habit</p>
@@ -13,7 +15,10 @@
         </div>
     </div>
 
+    @* Delete confirmation *@
     <div class="form-card">
+
+        @* Habit details *@
         <h3>@Model.Name</h3>
 
         <p class="text-muted mb-2">
@@ -32,6 +37,7 @@
             <p>@Model.Description</p>
         }
 
+        @* Form actions *@
         <form asp-action="Delete" method="post" class="mt-4">
             <input type="hidden" asp-for="HabitID" />
 

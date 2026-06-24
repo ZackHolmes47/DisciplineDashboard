@@ -6,6 +6,8 @@
 }
 
 <div class="page-section">
+
+    @* Page header *@
     <div class="page-header">
         <div>
             <p class="page-kicker">Build consistency</p>
@@ -24,13 +26,14 @@
             .ToList();
     }
 
+    @* Category cards *@
     <div class="life-area-grid mb-4">
         @foreach (var category in categories)
         {
             <a asp-controller="Category"
-                   asp-action="Details"
-                   asp-route-category="@category"
-                   class="life-area-card">
+               asp-action="Details"
+               asp-route-category="@category"
+               class="life-area-card">
 
                 <div>
                     <p class="page-kicker mb-1">Life Area</p>
@@ -43,15 +46,19 @@
         }
     </div>
 
+    @* Habit groups *@
     <div class="habit-groups">
         @foreach (var group in groupedHabits)
         {
             <section class="habit-group-card reveal">
+
+                @* Category header *@
                 <div class="habit-group-header">
                     <h2>@group.Key</h2>
                     <span>@group.Count() habits</span>
                 </div>
 
+                @* Habit list *@
                 <div class="habit-list">
                     @foreach (var habit in group)
                     {

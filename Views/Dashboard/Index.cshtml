@@ -1,4 +1,4 @@
-﻿@*DASHBOARD HOMEPAGE*@
+﻿@*DASHBOARD INDEX*@
 @model DisciplineDashboard.Models.ViewModels.DashboardViewModel
 
 @using Microsoft.AspNetCore.Identity
@@ -33,6 +33,7 @@
 
 <div class="dashboard-page">
 
+    @* Hero greeting *@
     <section class="dashboard-hero">
         <div class="hero-inner">
             <div class="hero-kicker">@greeting,</div>
@@ -47,6 +48,7 @@
         </div>
     </section>
 
+    @* Dashboard stats *@
     <div class="dashboard-stats reveal">
         <div class="stat-card">
             <div class="stat-icon">🔥</div>
@@ -81,7 +83,10 @@
         </div>
     </div>
 
+    @* Main dashboard cards *@
     <section class="dashboard-grid">
+
+        @* Today's mission *@
         <div class="dash-card card-large reveal">
             @if (!string.IsNullOrWhiteSpace(Model.TodaysMission))
             {
@@ -99,6 +104,7 @@
             </a>
         </div>
 
+        @* Habit streaks *@
         <div class="dash-card card-medium reveal">
             <div class="card-header-row">
                 <h3>Streaks</h3>
@@ -128,6 +134,10 @@
             </div>
         </div>
 
+        @*FOR FAITH AND HEALTH HABIT*@
+        @*When user settings is created and each user can edit their own dashboard, these two cards will most likely be replaced if not delted entirely.*@
+
+        @* Faith habits *@
         <div class="dash-card card-small reveal">
             <div class="card-header-row">
                 <h3>Faith</h3>
@@ -155,6 +165,7 @@
             </div>
         </div>
 
+        @* Health habits *@
         <div class="dash-card card-small reveal">
             <div class="card-header-row">
                 <h3>Health</h3>
@@ -182,6 +193,7 @@
             </div>
         </div>
 
+        @* Yesterday's reflection *@
         <div class="dash-card card-small reveal">
             @if (Model.YesterdayJournal != null &&
      !string.IsNullOrWhiteSpace(Model.YesterdayJournal.Reflection))
@@ -204,6 +216,7 @@
 
     </section>
 
+    @* Daily check-in *@
     <section class="reveal mt-5">
         <div class="page-header">
             <div>

@@ -26,16 +26,22 @@ namespace DisciplineDashboard.Controllers
             _streakService = streakService;
         }
 
+        // =========================================================
+        // CATEGORY DETAILS
+        // Shows all habits, check-ins, and streaks for one category.
+        // =========================================================
         public async Task<IActionResult> Details(string category)
         {
             var userID = _userManager.GetUserId(User);
             var today = DateTime.Today;
 
+            // Make sure a category was selected.
             if (string.IsNullOrWhiteSpace(category))
             {
                 return RedirectToAction("Index", "Habits");
             }
 
+            // Verify the category belongs to this user.
             var categoryExists = await _dbContext.Habits
                 .AnyAsync(h => h.UserID == userID &&
                                h.IsActive &&
@@ -46,6 +52,7 @@ namespace DisciplineDashboard.Controllers
                 return NotFound();
             }
 
+            // Load the active habits in this category.
             var habits = await _dbContext.Habits
                 .Where(h => h.UserID == userID &&
                             h.IsActive &&
@@ -53,16 +60,20 @@ namespace DisciplineDashboard.Controllers
                 .OrderBy(h => h.Name)
                 .ToListAsync();
 
+            // Get today's logs for progress tracking.
             var todayLogs = await _dbContext.HabitLogs
                 .Where(l => l.UserID == userID && l.Date == today)
                 .ToListAsync();
 
+            // Get all logs for streak calculations.
             var allLogs = await _dbContext.HabitLogs
                 .Where(l => l.UserID == userID)
                 .ToListAsync();
 
+            // Pass the category name to the view.
             ViewBag.Category = category;
 
+            // Build the check-in cards.
             ViewBag.HabitItems = habits.Select(h =>
             {
                 var log = todayLogs.FirstOrDefault(l => l.HabitID == h.HabitID);
@@ -82,6 +93,7 @@ namespace DisciplineDashboard.Controllers
                 };
             }).ToList();
 
+            // Build streak information for each habit.
             ViewBag.Streaks = habits.Select(h =>
             {
                 var habitLogs = allLogs.Where(l => l.HabitID == h.HabitID).ToList();
@@ -105,6 +117,7 @@ namespace DisciplineDashboard.Controllers
                 };
             }).ToList();
 
+            // Display the category page.
             return View();
         }
     }

@@ -6,6 +6,7 @@
 
 <div class="page-section">
 
+    @* Page header *@
     <div class="page-header">
         <div>
             <p class="page-kicker">Edit Habit</p>
@@ -14,16 +15,20 @@
         </div>
     </div>
 
+    @* Habit form *@
     <div class="form-card">
 
         <form asp-action="Edit" method="post">
             <input type="hidden" asp-for="HabitID" />
+
+            @* Habit name *@
             <div class="mb-4">
                 <label asp-for="Name" class="form-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
 
+            @* Habit category *@
             <div class="mb-4">
                 <label asp-for="Category" class="form-label"></label>
 
@@ -40,6 +45,7 @@
                 <span asp-validation-for="Category" class="text-danger"></span>
             </div>
 
+            @* Habit description *@
             <div class="mb-4">
                 <label asp-for="Description" class="form-label">
                     What do you want to accomplish?
@@ -52,6 +58,7 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
 
+            @* Daily target *@
             <div class="mb-4">
                 <label asp-for="TargetValue" class="form-label">
                     Daily Target
@@ -65,6 +72,7 @@
                       class="text-danger"></span>
             </div>
 
+            @* Target unit *@
             <div class="mb-4">
 
                 <label asp-for="Unit" class="form-label">
@@ -96,9 +104,9 @@
 
                 <span asp-validation-for="Unit"
                       class="text-danger"></span>
-
             </div>
 
+            @* Form actions *@
             <div class="d-flex justify-content-end gap-2">
 
                 <a asp-action="Index" class="btn btn-outline-secondary">
@@ -108,16 +116,14 @@
                 <button type="submit" class="btn btn-primary">
                     Submit Changes
                 </button>
-
             </div>
-
         </form>
-
     </div>
-
 </div>
 
 @section Scripts {
+
+    @* Client-side validation *@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }

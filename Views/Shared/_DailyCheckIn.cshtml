@@ -7,9 +7,11 @@
         .OrderBy(g => g.Key);
 }
 
+@* Daily check-in form *@
 <form asp-controller="Habits" asp-action="CheckIn" method="post">
     @Html.AntiForgeryToken()
 
+    @* Habit category groups *@
     @foreach (var group in groupedHabits)
     {
         <div class="habit-group-card mb-3">
@@ -69,10 +71,10 @@
         </div>
     }
 
+    @* Form actions *@
     <div class="text-end">
         <button type="submit" class="btn btn-primary">
             Save Today's Progress
         </button>
     </div>
-
 </form>

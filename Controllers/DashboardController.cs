@@ -20,12 +20,19 @@ namespace DisciplineDashboard.Controllers
             _userManager = userManager;
         }
 
+        // =========================================================
+        // DASHBOARD HOME
+        // Loads the user's personalized dashboard.
+        // =========================================================
         public async Task<IActionResult> Index()
         {
+            // Get the currently logged in user.
             var userID = _userManager.GetUserId(User);
 
+            // Build the dashboard view model.
             var dashboard = await _dashboardService.GetDashboardAsync(userID);
 
+            // Display the dashboard.
             return View(dashboard);
         }
     }

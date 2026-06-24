@@ -20,10 +20,15 @@ namespace DisciplineDashboard.Controllers
             _userManager = userManager;
         }
 
+        // =========================================================
+        // HABIT LIST
+        // Shows all habits for the logged in user.
+        // =========================================================
         public async Task<IActionResult> Index()
         {
             var userID = _userManager.GetUserId(User);
 
+            // Load this user's habits by category and name.
             var habits = await _dbContext.Habits
                 .Where(h => h.UserID == userID)
                 .OrderBy(h => h.Category)
@@ -33,20 +38,30 @@ namespace DisciplineDashboard.Controllers
             return View(habits);
         }
 
+        // =========================================================
+        // CREATE HABIT PAGE
+        // Opens the form for adding a new habit.
+        // =========================================================
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
+        // =========================================================
+        // CREATE HABIT
+        // Saves a new habit for the logged in user.
+        // =========================================================
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Habit habit)
         {
+            // UserID is added manually from the logged in user.
             ModelState.Remove(nameof(Habit.UserID));
 
             if (ModelState.IsValid)
             {
+                // Set default values before saving.
                 habit.UserID = _userManager.GetUserId(User);
                 habit.CreatedAt = DateTime.Now;
                 habit.IsActive = true;
@@ -60,11 +75,16 @@ namespace DisciplineDashboard.Controllers
             return View(habit);
         }
 
+        // =========================================================
+        // EDIT HABIT PAGE
+        // Opens the edit form for one of the user's habits.
+        // =========================================================
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
             var userId = _userManager.GetUserId(User);
 
+            // Make sure the habit belongs to this user.
             var habit = await _dbContext.Habits
                 .FirstOrDefaultAsync(h => h.HabitID == id && h.UserID == userId);
 
@@ -76,10 +96,15 @@ namespace DisciplineDashboard.Controllers
             return View(habit);
         }
 
+        // =========================================================
+        // EDIT HABIT
+        // Updates an existing habit for the logged in user.
+        // =========================================================
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Habit habit)
         {
+            // UserID stays tied to the logged in user.
             ModelState.Remove(nameof(Habit.UserID));
 
             if (id != habit.HabitID)
@@ -89,6 +114,7 @@ namespace DisciplineDashboard.Controllers
 
             var userId = _userManager.GetUserId(User);
 
+            // Load the existing habit safely from the database.
             var habitFromDb = await _dbContext.Habits
                 .FirstOrDefaultAsync(h => h.HabitID == id && h.UserID == userId);
 
@@ -99,6 +125,7 @@ namespace DisciplineDashboard.Controllers
 
             if (ModelState.IsValid)
             {
+                // Update only the editable habit fields.
                 habitFromDb.Name = habit.Name;
                 habitFromDb.Category = habit.Category;
                 habitFromDb.Description = habit.Description;
@@ -114,11 +141,16 @@ namespace DisciplineDashboard.Controllers
             return View(habit);
         }
 
+        // =========================================================
+        // DELETE HABIT PAGE
+        // Shows the confirmation page before deleting a habit.
+        // =========================================================
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
             var userID = _userManager.GetUserId(User);
 
+            // Load only the current user's habit.
             var habit = await _dbContext.Habits
                 .FirstOrDefaultAsync(h => h.HabitID == id && h.UserID == userID);
 
@@ -130,12 +162,17 @@ namespace DisciplineDashboard.Controllers
             return View(habit);
         }
 
+        // =========================================================
+        // DELETE HABIT
+        // Removes the habit after confirmation.
+        // =========================================================
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var userID = _userManager.GetUserId(User);
 
+            // Find the habit before removing it.
             var habit = await _dbContext.Habits
                 .FirstOrDefaultAsync(h => h.HabitID == id && h.UserID == userID);
 
@@ -148,22 +185,29 @@ namespace DisciplineDashboard.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // =========================================================
+        // CHECK-IN PAGE
+        // Loads today's habit check-in form.
+        // =========================================================
         [HttpGet]
         public async Task<IActionResult> CheckIn()
         {
             var userID = _userManager.GetUserId(User);
             var today = DateTime.Today;
 
+            // Load active habits for today's check-in.
             var habits = await _dbContext.Habits
                 .Where(h => h.UserID == userID && h.IsActive)
                 .OrderBy(h => h.Category)
                 .ThenBy(h => h.Name)
                 .ToListAsync();
 
+            // Load any logs already created for today.
             var logs = await _dbContext.HabitLogs
                 .Where(l => l.UserID == userID && l.Date == today)
                 .ToListAsync();
 
+            // Build the check-in view model.
             var viewModel = new HabitCheckInViewModel
             {
                 Habits = habits.Select(h =>
@@ -186,6 +230,10 @@ namespace DisciplineDashboard.Controllers
             return View(viewModel);
         }
 
+        // =========================================================
+        // SAVE CHECK-IN
+        // Creates or updates today's habit logs.
+        // =========================================================
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CheckIn(HabitCheckInViewModel viewModel)
@@ -197,6 +245,7 @@ namespace DisciplineDashboard.Controllers
 
             foreach (var item in viewModel.Habits)
             {
+                // Make sure the habit belongs to this user.
                 var habit = await _dbContext.Habits
                     .FirstOrDefaultAsync(h => h.HabitID == item.HabitID && h.UserID == userID);
 
@@ -205,6 +254,7 @@ namespace DisciplineDashboard.Controllers
                     continue;
                 }
 
+                // Look for an existing log for today.
                 var log = await _dbContext.HabitLogs
                     .FirstOrDefaultAsync(l => l.HabitID == item.HabitID &&
                                               l.UserID == userID &&
@@ -212,6 +262,7 @@ namespace DisciplineDashboard.Controllers
 
                 var completed = item.Completed;
 
+                // For number-based habits, compare actual value to the target.
                 if (habit.TargetValue.HasValue && item.ActualValue.HasValue)
                 {
                     completed = item.ActualValue.Value >= habit.TargetValue.Value;
@@ -219,6 +270,7 @@ namespace DisciplineDashboard.Controllers
 
                 if (log == null)
                 {
+                    // Create a new log if one does not exist yet.
                     log = new HabitLog
                     {
                         HabitID = habit.HabitID,
@@ -233,6 +285,7 @@ namespace DisciplineDashboard.Controllers
                 }
                 else
                 {
+                    // Update today's existing log.
                     log.ActualValue = item.ActualValue;
                     log.Completed = completed;
                 }
