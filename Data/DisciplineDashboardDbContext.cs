@@ -11,5 +11,6 @@ namespace DisciplineDashboard.Data
         public DbSet<Habit> Habits { get; set; }
         public DbSet<HabitLog> HabitLogs { get; set; }
         public DbSet<JournalEntry> JournalEntries { get; set; }
+        public DbSet<Goal> Goals { get; set; }
     }
 }

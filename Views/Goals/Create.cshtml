@@ -1,0 +1,95 @@
+﻿@model DisciplineDashboard.Models.Goal
+
+@{
+    ViewData["Title"] = "Create Goal";
+}
+
+<div class="page-section">
+
+    @* Page header *@
+    <div class="page-header">
+        <div>
+            <p class="page-kicker">New Goal</p>
+            <h1>Create a Goal</h1>
+            <p>Set a bigger outcome you want to work toward.</p>
+        </div>
+    </div>
+
+    @* Goal form *@
+    <div class="form-card">
+
+        <form asp-action="Create" method="post">
+
+            @* Goal name *@
+            <div class="mb-4">
+                <label asp-for="Name" class="form-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            @* Goal category *@
+            <div class="mb-4">
+                <label asp-for="Category" class="form-label"></label>
+
+                <select asp-for="Category" class="form-select">
+                    <option value="">Select a category...</option>
+                    <option>Faith</option>
+                    <option>Health</option>
+                    <option>Personal</option>
+                    <option>Work</option>
+                    <option>Relationships</option>
+                    <option>Other</option>
+                </select>
+
+                <span asp-validation-for="Category" class="text-danger"></span>
+            </div>
+
+            @* Goal description *@
+            <div class="mb-4">
+                <label asp-for="Description" class="form-label">
+                    What are you working toward?
+                </label>
+
+                <textarea asp-for="Description"
+                          rows="4"
+                          class="form-control"></textarea>
+
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            @* Target date *@
+            <div class="mb-4">
+                <label asp-for="TargetDate" class="form-label">
+                    Target Date
+                </label>
+
+                <input asp-for="TargetDate"
+                       type="date"
+                       class="form-control" />
+
+                <span asp-validation-for="TargetDate"
+                      class="text-danger"></span>
+            </div>
+
+            @* Form actions *@
+            <div class="d-flex justify-content-end gap-2">
+
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    Cancel
+                </a>
+
+                <button type="submit" class="btn btn-primary">
+                    Create Goal
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+
+    @* Client-side validation *@
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

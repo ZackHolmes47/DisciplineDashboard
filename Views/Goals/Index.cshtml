@@ -1,0 +1,114 @@
+﻿@model IEnumerable<DisciplineDashboard.Models.Goal>
+
+@{
+    ViewData["Title"] = "Goals";
+}
+
+<div class="page-section">
+
+    @* Page header *@
+    <div class="page-header">
+        <div>
+            <p class="page-kicker">Long-term focus</p>
+            <h1>Goals</h1>
+            <p>Track the bigger outcomes you're working toward.</p>
+        </div>
+
+        <a asp-action="Create" class="btn btn-primary">+ Add Goal</a>
+    </div>
+
+    @* Goal list *@
+    @* Goal list *@
+    <div class="habit-groups">
+
+        @* Active goals *@
+        <section class="habit-group-card reveal">
+            <div class="habit-group-header">
+                <h2>Active Goals</h2>
+                <span>@Model.Count(g => !g.IsCompleted) active</span>
+            </div>
+
+            <div class="habit-list">
+                @if (Model.Any(g => !g.IsCompleted))
+                {
+                    foreach (var goal in Model.Where(g => !g.IsCompleted))
+                    {
+                        <div class="habit-row">
+                            <div>
+                                <strong>@goal.Name</strong>
+
+                                @if (!string.IsNullOrWhiteSpace(goal.Description))
+                                {
+                                    <p>@goal.Description</p>
+                                }
+
+                                @if (goal.TargetDate.HasValue)
+                                {
+                                    <p>Target: @goal.TargetDate.Value.ToShortDateString()</p>
+                                }
+                            </div>
+
+                            <div class="habit-actions">
+                                <a asp-action="Edit" asp-route-id="@goal.GoalID">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@goal.GoalID" class="text-danger">Delete</a>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p class="text-muted">No active goals yet.</p>
+                }
+            </div>
+        </section>
+
+        @* Completed goals *@
+        <section class="habit-group-card reveal">
+            <div class="habit-group-header">
+                <h2>Completed Goals</h2>
+                <span>@Model.Count(g => g.IsCompleted) completed</span>
+            </div>
+
+            <div class="habit-list">
+                @if (Model.Any(g => g.IsCompleted))
+                {
+                    foreach (var goal in Model.Where(g => g.IsCompleted))
+                    {
+                        <div class="habit-row">
+                            <div>
+                                <strong>@goal.Name</strong>
+
+                                @if (!string.IsNullOrWhiteSpace(goal.Description))
+                                {
+                                    <p>@goal.Description</p>
+                                }
+
+                                @if (goal.TargetDate.HasValue)
+                                {
+                                    <p>Target: @goal.TargetDate.Value.ToShortDateString()</p>
+                                }
+                                @if (goal.CompletedAt.HasValue)
+                                {
+                                    var daysToComplete = (goal.CompletedAt.Value.Date - goal.CreatedAt.Date).Days;
+
+                                    <p>
+                                        Completed on @goal.CompletedAt.Value.ToShortDateString()
+                                        in @daysToComplete days
+                                    </p>
+                                }
+                            </div>
+
+                            <div class="habit-actions">
+                                <a asp-action="Delete" asp-route-id="@goal.GoalID" class="text-danger">Delete</a>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p class="text-muted">No completed goals yet.</p>
+                }
+            </div>
+        </section>
+    </div>
+</div>
