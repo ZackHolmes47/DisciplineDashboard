@@ -19,6 +19,18 @@ namespace DisciplineDashboard.Controllers
             return View();
         }
 
+        [AllowAnonymous]
+        public IActionResult About()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public IActionResult Features()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

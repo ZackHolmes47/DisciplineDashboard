@@ -22,17 +22,28 @@
             <button class="sidebar-collapse-btn" type="button" onclick="toggleSidebar()">‹</button>
         </div>
 
-        <nav class="sidebar-nav">
-            <a asp-controller="Dashboard" asp-action="Index" class="nav-item"><span>□</span>Home</a>
-            <a asp-controller="Habits" asp-action="Index" class="nav-item"><span>□</span>Habits</a>
-            <a asp-controller="Habits" asp-action="CheckIn" class="nav-item"><span>□</span>Habit Check In</a>
-            @* <a href="#" class="nav-item"><span>□</span> Faith</a>
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <nav class="sidebar-nav">
+                <a asp-controller="Dashboard" asp-action="Index" class="nav-item"><span>□</span>Dashboard</a>
+                <a asp-controller="Habits" asp-action="Index" class="nav-item"><span>□</span>Habits</a>
+                <a asp-controller="Habits" asp-action="CheckIn" class="nav-item"><span>□</span>Habit Check In</a>
+                @* <a href="#" class="nav-item"><span>□</span> Faith</a>
             <a href="#" class="nav-item"><span>□</span> Health</a> *@
-            <a asp-controller="Journal" asp-action="Index" class="nav-item"><span>□</span>Journal</a>
-            <a href="#" class="nav-item"><span>□</span> Goals</a>
-            <a href="#" class="nav-item"><span>□</span> Challenges</a>
-            <a href="#" class="nav-item"><span>□</span> Statistics</a>
-        </nav>
+                <a asp-controller="Journal" asp-action="Index" class="nav-item"><span>□</span>Journal</a>
+                <a href="#" class="nav-item"><span>□</span> Goals</a>
+                <a href="#" class="nav-item"><span>□</span> Challenges</a>
+                <a href="#" class="nav-item"><span>□</span> Statistics</a>
+            </nav>
+        }
+        else
+        {
+            <nav class="sidebar-nav">
+                <a asp-controller="Home" asp-action="Index" class="nav-item"><span>□</span>Home</a>
+                <a asp-controller="Home" asp-action="About" class="nav-item"><span>□</span>About</a>
+                <a asp-controller="Home" asp-action="Features" class="nav-item"><span>□</span>Features</a>
+            </nav>
+        }
     </div>
 
     <div class="sidebar-bottom">
@@ -53,10 +64,10 @@
         }
         else
         {
-            <div class="auth-links">
+            @* <div class="auth-links">
                 <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary">Login</a>
                 <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary">Register</a>
-            </div>
+            </div> *@
         }
     </div>
 </aside>
