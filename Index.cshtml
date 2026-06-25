@@ -1,0 +1,57 @@
+﻿@*DEFAULT HOMEPAGE*@
+@{
+    ViewData["Title"] = "Discipline Dashboard";
+}
+
+@* Hero section *@
+<section class="text-center py-5">
+    <div class="container">
+        <h1 class="display-4 fw-bold">Build discipline one day at a time.</h1>
+
+        <p class="lead mt-3">
+            Discipline Dashboard helps you track habits, goals, journals, and personal growth in one simple place.
+        </p>
+
+        <div class="mt-4">
+            <a class="btn btn-primary btn-lg me-2" asp-area="Identity" asp-page="/Account/Register">
+                Get Started
+            </a>
+
+            <a class="btn btn-outline-secondary btn-lg" asp-area="Identity" asp-page="/Account/Login">
+                Log In
+            </a>
+        </div>
+    </div>
+</section>
+
+@* Feature highlights *@
+<section class="container py-5">
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h3 class="h5">Track Habits</h3>
+                    <p>Build consistency with daily routines and progress tracking.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h3 class="h5">Set Goals</h3>
+                    <p>Create personal goals and challenges that keep you focused.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h3 class="h5">Reflect Daily</h3>
+                    <p>Use journaling to review progress, lessons, and growth.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
