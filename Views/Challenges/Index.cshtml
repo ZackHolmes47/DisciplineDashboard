@@ -1,0 +1,109 @@
+﻿@model IEnumerable<DisciplineDashboard.Models.Challenge>
+
+@{
+    ViewData["Title"] = "Challenges";
+
+    var activeChallenges = Model.Where(c => !c.IsCompleted).ToList();
+    var completedChallenges = Model.Where(c => c.IsCompleted).ToList();
+}
+
+<div class="page-section">
+
+    @* Page header *@
+    <div class="page-header">
+        <div>
+            <p class="page-kicker">Stay committed</p>
+            <h1>Challenges</h1>
+            <p>Track short-term commitments with measurable progress.</p>
+        </div>
+
+        <a asp-action="Create" class="btn btn-primary">
+            + Add Challenge
+        </a>
+    </div>
+
+    @* Active challenges *@
+    <section class="habit-group-card reveal">
+
+        <div class="habit-group-header">
+            <h2>Active Challenges</h2>
+            <span>@activeChallenges.Count active</span>
+        </div>
+
+        @if (activeChallenges.Any())
+        {
+            foreach (var challenge in activeChallenges)
+            {
+                var percent = challenge.TargetValue > 0
+                    ? Math.Min((challenge.CurrentValue / challenge.TargetValue) * 100, 100)
+                    : 0;
+
+                <div class="habit-row">
+                    <div>
+                        <strong>@challenge.Name</strong>
+                        @if (!string.IsNullOrWhiteSpace(challenge.Description))
+                        {
+                            <p>@challenge.Description</p>
+                        }
+                        <div class="habit-progress-track mt-2">
+                            <div class="habit-progress-fill"
+                                 style="width:@percent%">
+                            </div>
+                        </div>
+                        <small>
+                            @challenge.CurrentValue / @challenge.TargetValue @challenge.Unit
+                        </small>
+                    </div>
+                    <div class="habit-actions">
+                        <a asp-action="Details"
+                           asp-route-id="@challenge.ChallengeID"
+                           class="habit-edit-link">
+                            View
+                        </a>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p>No active challenges.</p>
+        }
+    </section>
+
+    @* Completed challenges *@
+    <section class="habit-group-card reveal mt-4">
+
+        <div class="habit-group-header">
+            <h2>Completed Challenges</h2>
+            <span>@completedChallenges.Count completed</span>
+        </div>
+
+        @if (completedChallenges.Any())
+        {
+            foreach (var challenge in completedChallenges)
+            {
+                <div class="habit-row">
+                    <div>
+                        <strong>@challenge.Name</strong>
+                        <p>
+                            Completed
+                            @challenge.CompletedAt?.ToShortDateString()
+                        </p>
+                    </div>
+
+                    <div class="habit-actions">
+                        <a asp-action="Details"
+                           asp-route-id="@challenge.ChallengeID"
+                           class="habit-edit-link">
+                            View
+                        </a>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p>No completed challenges.</p>
+        }
+    </section>
+</div>
