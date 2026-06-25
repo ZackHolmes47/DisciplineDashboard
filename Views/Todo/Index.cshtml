@@ -1,0 +1,57 @@
+﻿@model IEnumerable<DisciplineDashboard.Models.TodoItem>
+
+@{
+    ViewData["Title"] = "To-Do";
+}
+
+<div class="page-section">
+
+    @* Page header *@
+    <div class="page-header">
+        <div>
+            <p class="page-kicker">Quick tasks</p>
+            <h1>To-Do List</h1>
+            <p>Keep track of small tasks you want to clear today.</p>
+        </div>
+    </div>
+
+    @* To-do list *@
+    <div class="form-card">
+
+        @foreach (var todo in Model)
+        {
+            <div class="todo-row @(todo.IsCompleted ? "todo-completed" : "")">
+
+                <form asp-action="Toggle" asp-route-id="@todo.TodoItemID" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit" class="todo-check">
+                        @(todo.IsCompleted ? "✓" : "")
+                    </button>
+                </form>
+
+                <span class="todo-text">@todo.Text</span>
+
+                <form asp-action="Delete" asp-route-id="@todo.TodoItemID" method="post" class="todo-delete-form">
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit" class="todo-delete">
+                        ×
+                    </button>
+                </form>
+            </div>
+        }
+
+        @* Add task *@
+        <form asp-action="Add" method="post" class="todo-add-form">
+            @Html.AntiForgeryToken()
+
+            <span class="todo-add-icon">+</span>
+
+            <input name="text"
+                   class="todo-add-input"
+                   placeholder="Add a task..."
+                   autocomplete="off" />
+        </form>
+    </div>
+</div>

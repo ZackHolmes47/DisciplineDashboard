@@ -44,3 +44,30 @@ function revealOnScroll() {
 
 window.addEventListener("scroll", revealOnScroll);
 window.addEventListener("load", revealOnScroll);
+
+// =========================================================
+// CHALLENGE STEPPER
+// Updates challenge progress with plus and minus buttons.
+// =========================================================
+function updateChallengeProgress(challengeID, amount) {
+    const input = document.getElementById(`challenge-progress-${challengeID}`);
+
+    if (!input) {
+        return;
+    }
+
+    const currentValue = parseFloat(input.value) || 0;
+    const maxValue = parseFloat(input.max) || 0;
+
+    let newValue = currentValue + amount;
+
+    if (newValue < 0) {
+        newValue = 0;
+    }
+
+    if (maxValue > 0 && newValue > maxValue) {
+        newValue = maxValue;
+    }
+
+    input.value = newValue;
+}

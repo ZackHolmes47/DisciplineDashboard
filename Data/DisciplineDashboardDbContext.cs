@@ -13,5 +13,6 @@ namespace DisciplineDashboard.Data
         public DbSet<JournalEntry> JournalEntries { get; set; }
         public DbSet<Goal> Goals { get; set; }
         public DbSet<Challenge> Challenges { get; set; }
+        public DbSet<TodoItem> TodoItems { get; set; }
     }
 }

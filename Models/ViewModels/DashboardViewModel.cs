@@ -9,6 +9,7 @@ namespace DisciplineDashboard.Models.ViewModels
         public List<HabitCheckInItemViewModel> FaithHabits { get; set; } = new();
         public List<HabitCheckInItemViewModel> HealthHabits { get; set; } = new();
         public List<Goal> ActiveGoalsList { get; set; } = new();
+        public List<Challenge> ActiveChallengesList { get; set; } = new();
         public string? TodaysMission { get; set; }
         public JournalEntry? YesterdayJournal { get; set; }
         public int CurrentStreak { get; set; }
@@ -16,6 +17,7 @@ namespace DisciplineDashboard.Models.ViewModels
         public int TotalHabitsToday { get; set; }
         public int ActiveGoals { get; set; }
         public int JournalEntries { get; set; }
+        public int ActiveChallenges { get; set; }
     }
 
     public class DashboardStreakViewModel

@@ -32,37 +32,96 @@
 
         @if (activeChallenges.Any())
         {
-            foreach (var challenge in activeChallenges)
-            {
-                var percent = challenge.TargetValue > 0
-                    ? Math.Min((challenge.CurrentValue / challenge.TargetValue) * 100, 100)
-                    : 0;
+            <form asp-action="UpdateProgress" method="post">
+                @Html.AntiForgeryToken()
 
-                <div class="habit-row">
-                    <div>
-                        <strong>@challenge.Name</strong>
-                        @if (!string.IsNullOrWhiteSpace(challenge.Description))
-                        {
-                            <p>@challenge.Description</p>
-                        }
-                        <div class="habit-progress-track mt-2">
-                            <div class="habit-progress-fill"
-                                 style="width:@percent%">
+                @foreach (var challenge in activeChallenges)
+                {
+                    var percent = challenge.TargetValue > 0
+                        ? Math.Min((challenge.CurrentValue / challenge.TargetValue) * 100, 100)
+                        : 0;
+
+                    <div class="habit-row">
+
+                        <div>
+                            <strong>@challenge.Name</strong>
+
+                            @if (!string.IsNullOrWhiteSpace(challenge.Description))
+                            {
+                                <p>@challenge.Description</p>
+                            }
+
+                            <div class="habit-progress-track mt-2">
+                                <div class="habit-progress-fill"
+                                     style="width:@percent%">
+                                </div>
+                            </div>
+
+                            <small>
+                                @challenge.CurrentValue / @challenge.TargetValue @challenge.Unit
+                            </small>
+                        </div>
+
+                        <div style="min-width: 230px;">
+                            <label class="form-label">Current Progress</label>
+
+                            <div class="challenge-stepper">
+                                <button type="button"
+                                        class="challenge-step-btn"
+                                        onclick="updateChallengeProgress(@challenge.ChallengeID, -1)">
+                                    −
+                                </button>
+
+                                <input type="number"
+                                       step="0.01"
+                                       min="0"
+                                       max="@challenge.TargetValue"
+                                       id="challenge-progress-@challenge.ChallengeID"
+                                       name="progressValues[@challenge.ChallengeID]"
+                                       value="@challenge.CurrentValue"
+                                       class="challenge-progress-input" />
+
+                                <span class="challenge-unit">@challenge.Unit</span>
+
+                                <button type="button"
+                                        class="challenge-step-btn"
+                                        onclick="updateChallengeProgress(@challenge.ChallengeID, 1)">
+                                    +
+                                </button>
+                            </div>
+
+                            <div class="habit-actions mt-2">
+                                <a asp-action="Details"
+                                   asp-route-id="@challenge.ChallengeID"
+                                   class="habit-edit-link">
+                                    View
+                                </a>
+
+                                <a asp-action="Edit"
+                                   asp-route-id="@challenge.ChallengeID"
+                                   class="habit-edit-link">
+                                    Edit
+                                </a>
+
+                                <button type="button"
+                                        class="habit-delete-link"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteChallengeModal-@challenge.ChallengeID">
+                                    Delete
+                                </button>
                             </div>
                         </div>
-                        <small>
-                            @challenge.CurrentValue / @challenge.TargetValue @challenge.Unit
-                        </small>
+
                     </div>
-                    <div class="habit-actions">
-                        <a asp-action="Details"
-                           asp-route-id="@challenge.ChallengeID"
-                           class="habit-edit-link">
-                            View
-                        </a>
-                    </div>
+                }
+
+                @* Form actions *@
+                <div class="text-end mt-4">
+                    <button type="submit" class="btn btn-primary">
+                        Save Challenge Progress
+                    </button>
                 </div>
-            }
+            </form>
         }
         else
         {
@@ -97,6 +156,12 @@
                            class="habit-edit-link">
                             View
                         </a>
+                        <button type="button"
+                                class="habit-delete-link"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deleteChallengeModal-@challenge.ChallengeID">
+                            Delete
+                        </button>
                     </div>
                 </div>
             }
@@ -107,3 +172,36 @@
         }
     </section>
 </div>
+
+@* Delete confirmation modals *@
+@foreach (var challenge in Model)
+{
+    <div class="modal fade" id="deleteChallengeModal-@challenge.ChallengeID" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete Challenge?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    Are you sure you want to delete <strong>@challenge.Name</strong>?
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+
+                    <form asp-action="Delete" asp-route-id="@challenge.ChallengeID" method="post">
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit" class="btn btn-danger">
+                            Yes, Delete
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}

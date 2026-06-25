@@ -88,6 +88,12 @@
 
         @* Today's mission *@
         <div class="dash-card card-large reveal">
+
+            <div class="card-header-row">
+                <h3>Todays Mission</h3>
+                <span class="card-pill">Current</span>
+            </div>
+
             @if (!string.IsNullOrWhiteSpace(Model.TodaysMission))
             {
                 <p class="mission-text">@Model.TodaysMission</p>
@@ -166,28 +172,60 @@
             </div>
         </div>
 
-        @* Challenges preview *@
+        @* Active challenges *@
         <div class="dash-card card-small reveal">
+
             <div class="card-header-row">
                 <h3>Challenges</h3>
-                <span class="card-pill">Soon</span>
+                <span class="card-pill">Active</span>
             </div>
 
-            <p>
-                Challenges will help you commit to focused goals for a set period of time.
-            </p>
+            <div class="mini-list compact-list">
 
-            <a class="btn btn-primary mt-2" href="#">
-                Coming Soon
-            </a>
+                @if (Model.ActiveChallengesList.Any())
+                {
+                    @foreach (var challenge in Model.ActiveChallengesList)
+                    {
+                        <div class="compact-list-item">
+
+                            <span>
+                                🏆 @challenge.Name
+                            </span>
+
+                            <strong>
+                                @challenge.CurrentValue/@challenge.TargetValue
+                            </strong>
+
+                        </div>
+                    }
+
+                    <a asp-controller="Challenges"
+                       asp-action="Index"
+                       class="compact-link">
+                        View All →
+                    </a>
+                }
+                else
+                {
+                    <p>No active challenges yet.</p>
+                }
+
+            </div>
+
         </div>
 
         @* Yesterday's reflection *@
         <div class="dash-card card-small reveal">
+
+            <div class="card-header-row">
+                <h3>Yesterdays Reflection</h3>
+                <span class="card-pill">Current</span>
+            </div>
+
             @if (Model.YesterdayJournal != null &&
-     !string.IsNullOrWhiteSpace(Model.YesterdayJournal.Reflection))
+            !string.IsNullOrWhiteSpace(Model.YesterdayJournal.Reflection))
             {
-                <p class="label-text">Yesterday’s Reflection</p>
+@*                 <p class="label-text">Yesterday’s Reflection</p> *@
 
                 <p>
                     @Model.YesterdayJournal.Reflection

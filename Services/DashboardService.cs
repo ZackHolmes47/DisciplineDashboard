@@ -122,11 +122,13 @@ namespace DisciplineDashboard.Services
 
             var totalHabitsToday = checkInModel.Habits.Count;
 
-            // Placeholder until goals are fully added.
-            var activeGoals = 0;
+            // Count active goals for the stat card.
+            var activeGoals = await _dbContext.Goals
+                .CountAsync(g => g.UserID == userID && !g.IsCompleted);
 
-            // Placeholder until challenges are fully added.
-            var activeChallenges = 0;
+            // Count active challenges for the stat card.
+            var activeChallenges = await _dbContext.Challenges
+                .CountAsync(c => c.UserID == userID && !c.IsCompleted);
 
             // Count all journal entries for this user.
             var journalEntries = await _dbContext.JournalEntries
@@ -136,7 +138,14 @@ namespace DisciplineDashboard.Services
             var activeGoalsList = await _dbContext.Goals
                 .Where(g => g.UserID == userID && !g.IsCompleted)
                 .OrderBy(g => g.TargetDate)
-                .Take(5)
+                .Take(3)
+                .ToListAsync();
+
+            // Load active challenges for the dashboard card.
+            var activeChallengesList = await _dbContext.Challenges
+                .Where(c => c.UserID == userID && !c.IsCompleted)
+                .OrderBy(c => c.EndDate)
+                .Take(3)
                 .ToListAsync();
 
             // Send everything to the dashboard view.
@@ -153,7 +162,9 @@ namespace DisciplineDashboard.Services
                 TotalHabitsToday = totalHabitsToday,
                 ActiveGoals = activeGoals,
                 JournalEntries = journalEntries,
-                ActiveGoalsList = activeGoalsList
+                ActiveGoalsList = activeGoalsList,
+                ActiveChallenges = activeChallenges,
+                ActiveChallengesList = activeChallengesList
             };
         }
     }
