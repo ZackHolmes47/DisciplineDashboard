@@ -63,7 +63,7 @@ namespace DisciplineDashboard.Controllers
             {
                 // Set default values before saving.
                 habit.UserID = _userManager.GetUserId(User);
-                habit.CreatedAt = DateTime.Now;
+                habit.CreatedAt = DateTime.UtcNow;
                 habit.IsActive = true;
 
                 _dbContext.Add(habit);
@@ -257,7 +257,7 @@ namespace DisciplineDashboard.Controllers
                         Date = today,
                         ActualValue = item.ActualValue,
                         Completed = completed,
-                        CreatedAt = DateTime.Now
+                        CreatedAt = DateTime.UtcNow
                     };
 
                     _dbContext.HabitLogs.Add(log);

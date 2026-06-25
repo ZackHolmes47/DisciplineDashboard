@@ -82,7 +82,7 @@ namespace DisciplineDashboard.Controllers
             {
                 // Set default values before saving.
                 goal.UserID = _userManager.GetUserId(User);
-                goal.CreatedAt = DateTime.Now;
+                goal.CreatedAt = DateTime.UtcNow;
                 goal.IsCompleted = false;
 
                 _dbContext.Goals.Add(goal);
@@ -151,7 +151,7 @@ namespace DisciplineDashboard.Controllers
                 goalFromDb.TargetDate = goal.TargetDate;
                 if (goal.IsCompleted && !goalFromDb.IsCompleted)
                 {
-                    goalFromDb.CompletedAt = DateTime.Now;
+                    goalFromDb.CompletedAt = DateTime.UtcNow;
                 }
                 else if (!goal.IsCompleted)
                 {

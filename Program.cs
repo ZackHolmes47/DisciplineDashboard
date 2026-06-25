@@ -10,12 +10,20 @@ namespace DisciplineDashboard
     {
         public static void Main(string[] args)
         {
+
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+            //builder.Services.AddDbContext<DisciplineDashboardDbContext>(options =>
+            //    options.UseSqlServer(connectionString));
+
             builder.Services.AddDbContext<DisciplineDashboardDbContext>(options =>
-                options.UseSqlServer(connectionString));
+            options.UseNpgsql(connectionString));
+
+
+
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)

@@ -61,7 +61,7 @@ namespace DisciplineDashboard.Controllers
                     if (challenge.CurrentValue >= challenge.TargetValue)
                     {
                         challenge.IsCompleted = true;
-                        challenge.CompletedAt = DateTime.Now;
+                        challenge.CompletedAt = DateTime.UtcNow;
                     }
                 }
             }
@@ -119,7 +119,7 @@ namespace DisciplineDashboard.Controllers
                 challenge.CurrentValue = 0;
                 challenge.StartDate = DateTime.Today;
                 challenge.IsCompleted = false;
-                challenge.CreatedAt = DateTime.Now;
+                challenge.CreatedAt = DateTime.UtcNow;
 
                 _dbContext.Challenges.Add(challenge);
                 await _dbContext.SaveChangesAsync();
@@ -192,7 +192,7 @@ namespace DisciplineDashboard.Controllers
                 if (challenge.CurrentValue >= challenge.TargetValue && !challengeFromDb.IsCompleted)
                 {
                     challengeFromDb.IsCompleted = true;
-                    challengeFromDb.CompletedAt = DateTime.Now;
+                    challengeFromDb.CompletedAt = DateTime.UtcNow;
                 }
                 else if (challenge.CurrentValue < challenge.TargetValue)
                 {

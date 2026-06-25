@@ -56,7 +56,7 @@ namespace DisciplineDashboard.Controllers
                     UserID = userID,
                     Text = text.Trim(),
                     IsCompleted = false,
-                    CreatedAt = DateTime.Now
+                    CreatedAt = DateTime.UtcNow
                 };
 
                 _dbContext.TodoItems.Add(todo);
@@ -82,7 +82,7 @@ namespace DisciplineDashboard.Controllers
             if (todo != null)
             {
                 todo.IsCompleted = !todo.IsCompleted;
-                todo.CompletedAt = todo.IsCompleted ? DateTime.Now : null;
+                todo.CompletedAt = todo.IsCompleted ? DateTime.UtcNow : null;
 
                 await _dbContext.SaveChangesAsync();
             }

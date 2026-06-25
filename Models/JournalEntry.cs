@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DisciplineDashboard.Models
 {
@@ -9,8 +10,9 @@ namespace DisciplineDashboard.Models
         [Required]
         public string UserID { get; set; }
 
+        [Column(TypeName = "date")]
         [DataType(DataType.Date)]
-        public DateTime Date { get; set; } = DateTime.Today;
+        public DateTime Date { get; set; } = DateTime.UtcNow.Date;
 
         [StringLength(500)]
         public string? MorningMission { get; set; }
@@ -29,7 +31,7 @@ namespace DisciplineDashboard.Models
 
         [StringLength(500)]
         public string? TomorrowMission { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
     }
 }

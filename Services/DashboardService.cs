@@ -22,7 +22,7 @@ namespace DisciplineDashboard.Services
         // =========================================================
         public async Task<DashboardViewModel> GetDashboardAsync(string userID)
         {
-            var today = DateTime.Today;
+            var today = DateTime.UtcNow.Date;
 
             // Load the user's active habits.
             var habits = await _dbContext.Habits

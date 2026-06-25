@@ -41,7 +41,7 @@ namespace DisciplineDashboard.Controllers
                 {
                     UserID = userID,
                     Date = today,
-                    CreatedAt = DateTime.Now
+                    CreatedAt = DateTime.UtcNow
                 };
 
                 _dbContext.JournalEntries.Add(todayEntry);
@@ -118,7 +118,7 @@ namespace DisciplineDashboard.Controllers
                 entryFromDb.WhatToImprove = entry.WhatToImprove;
                 entryFromDb.TomorrowMission = entry.TomorrowMission;
                 entryFromDb.Mood = entry.Mood;
-                entryFromDb.UpdatedAt = DateTime.Now;
+                entryFromDb.UpdatedAt = DateTime.UtcNow;
 
                 await _dbContext.SaveChangesAsync();
 

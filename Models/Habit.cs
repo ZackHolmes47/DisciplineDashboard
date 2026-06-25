@@ -22,6 +22,6 @@ namespace DisciplineDashboard.Models
         [StringLength(50)]
         public string? Unit { get; set; }
         public bool IsActive { get; set; } = true;
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

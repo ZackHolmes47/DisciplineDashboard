@@ -16,10 +16,11 @@ namespace DisciplineDashboard.Models
         [Required]
         public string UserID { get; set; }
 
+        [Column(TypeName = "date")]
         [DataType(DataType.Date)]
-        public DateTime Date { get; set; } = DateTime.Today;
+        public DateTime Date { get; set; } = DateTime.UtcNow.Date;
         public double? ActualValue { get; set; }
         public bool Completed { get; set; } = false;
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }
