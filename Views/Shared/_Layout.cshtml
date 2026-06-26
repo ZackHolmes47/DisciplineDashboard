@@ -15,6 +15,14 @@
 </head>
 <body>
 
+    @* Mobile menu button *@
+    <button class="mobile-menu-btn" type="button" onclick="toggleMobileSidebar()">
+        <i class="bi bi-list"></i>
+    </button>
+
+    @* Mobile sidebar overlay *@
+    <div class="mobile-sidebar-overlay" onclick="toggleMobileSidebar()"></div>
+
     @* App layout *@
     <div class="app-shell">
         <partial name="_Sidebar" />

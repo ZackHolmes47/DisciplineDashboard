@@ -148,6 +148,26 @@ namespace DisciplineDashboard.Services
                 .Take(3)
                 .ToListAsync();
 
+            // Pick a daily encouragement verse based on today's date.
+            var dailyVerses = new[]
+            {
+                new { Text = "Commit your deeds to Yahweh, and your plans shall succeed.", Reference = "Proverbs 16:3" },
+                new { Text = "Whatever you do, work heartily, as for the Lord and not for men.", Reference = "Colossians 3:23" },
+                new { Text = "Let’s not be weary in doing good, for we will reap in due season if we don’t give up.", Reference = "Galatians 6:9" },
+                new { Text = "I can do all things through Christ, who strengthens me.", Reference = "Philippians 4:13" },
+                new { Text = "Be strong and courageous. Don’t be afraid or scared of them; for Yahweh your God himself is who goes with you.", Reference = "Deuteronomy 31:6" },
+                new { Text = "For God didn’t give us a spirit of fear, but of power, love, and self-control.", Reference = "2 Timothy 1:7" },
+                new { Text = "But those who wait for Yahweh will renew their strength.", Reference = "Isaiah 40:31" },
+                new { Text = "Trust in Yahweh with all your heart, and don’t lean on your own understanding.", Reference = "Proverbs 3:5" },
+                new { Text = "In all hard work there is profit, but the talk of the lips leads only to poverty.", Reference = "Proverbs 14:23" },
+                new { Text = "Whatever your hand finds to do, do it with your might.", Reference = "Ecclesiastes 9:10" },
+                new { Text = "No discipline seems pleasant at the time, but painful. Yet afterward it yields the peaceful fruit of righteousness.", Reference = "Hebrews 12:11" },
+                new { Text = "Blessed is the man who perseveres under trial, for when he has stood the test, he will receive the crown of life.", Reference = "James 1:12" }
+            };
+
+            var verseIndex = DateTime.UtcNow.DayOfYear % dailyVerses.Length;
+            var dailyVerse = dailyVerses[verseIndex];
+
             // Send everything to the dashboard view.
             return new DashboardViewModel
             {
@@ -164,7 +184,9 @@ namespace DisciplineDashboard.Services
                 JournalEntries = journalEntries,
                 ActiveGoalsList = activeGoalsList,
                 ActiveChallenges = activeChallenges,
-                ActiveChallengesList = activeChallengesList
+                ActiveChallengesList = activeChallengesList,
+                DailyVerseText = dailyVerse.Text,
+                DailyVerseReference = dailyVerse.Reference
             };
         }
     }

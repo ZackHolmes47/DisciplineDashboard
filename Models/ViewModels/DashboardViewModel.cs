@@ -18,6 +18,8 @@ namespace DisciplineDashboard.Models.ViewModels
         public int ActiveGoals { get; set; }
         public int JournalEntries { get; set; }
         public int ActiveChallenges { get; set; }
+        public string DailyVerseText { get; set; }
+        public string DailyVerseReference { get; set; }
     }
 
     public class DashboardStreakViewModel

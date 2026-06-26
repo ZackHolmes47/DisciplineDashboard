@@ -262,6 +262,65 @@ body {
 }
 
 
+/* ==========================================================
+   MOBILE SIDEBAR
+   Hamburger menu and slide-out sidebar for mobile.
+========================================================== */
+
+.mobile-menu-btn {
+    display: none;
+}
+
+.mobile-sidebar-overlay {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-menu-btn {
+        display: grid;
+        place-items: center;
+        position: fixed;
+        top: 18px;
+        right: 18px;
+        z-index: 1100;
+        width: 44px;
+        height: 44px;
+        border: none;
+        border-radius: 14px;
+        background: #ffffff;
+        color: #172033;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, .14);
+        font-size: 1.5rem;
+    }
+
+    .app-sidebar {
+        transform: translateX(-110%);
+        transition: .25s ease;
+        z-index: 1200;
+    }
+
+    .mobile-sidebar-open .app-sidebar {
+        transform: translateX(0);
+    }
+
+    .mobile-sidebar-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, .35);
+        z-index: 1000;
+    }
+
+    .mobile-sidebar-open .mobile-sidebar-overlay {
+        display: block;
+    }
+
+    .app-main {
+        margin-left: 0;
+        padding-top: 72px;
+    }
+}
+
+
 /* =========================================================
    MAIN CONTENT AREA
    Wrapper for the main page content beside the sidebar.

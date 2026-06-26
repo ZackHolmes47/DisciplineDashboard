@@ -71,3 +71,11 @@ function updateChallengeProgress(challengeID, amount) {
 
     input.value = newValue;
 }
+
+// =========================================================
+// MOBILE SIDEBAR
+// Opens and closes the sidebar on smaller screens.
+// =========================================================
+function toggleMobileSidebar() {
+    document.body.classList.toggle("mobile-sidebar-open");
+}
