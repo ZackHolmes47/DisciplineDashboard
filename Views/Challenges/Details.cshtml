@@ -8,7 +8,7 @@
         : 0;
 
     var daysRemaining = Model.EndDate.HasValue
-        ? (Model.EndDate.Value.Date - DateTime.Today).Days
+        ? (Model.EndDate.Value.ToDateTime(TimeOnly.MinValue).Date - DateTime.Today).Days
         : (int?)null;
 }
 

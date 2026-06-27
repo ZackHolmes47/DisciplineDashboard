@@ -30,8 +30,8 @@ namespace DisciplineDashboard.Models
         [Required]
         [StringLength(50)]
         public string Unit { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        public DateOnly StartDate { get; set; }
+        public DateOnly? EndDate { get; set; }
         public bool IsCompleted { get; set; }
         public DateTime? CompletedAt { get; set; }
         public DateTime CreatedAt { get; set; }

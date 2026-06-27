@@ -117,7 +117,8 @@ namespace DisciplineDashboard.Controllers
                 // Set default values before saving.
                 challenge.UserID = _userManager.GetUserId(User);
                 challenge.CurrentValue = 0;
-                challenge.StartDate = DateTime.Today;
+                challenge.StartDate = DateOnly.FromDateTime(DateTime.UtcNow);
+                challenge.CompletedAt = null;
                 challenge.IsCompleted = false;
                 challenge.CreatedAt = DateTime.UtcNow;
 
