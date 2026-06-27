@@ -84,6 +84,7 @@ namespace DisciplineDashboard.Controllers
                 goal.UserID = _userManager.GetUserId(User);
                 goal.CreatedAt = DateTime.UtcNow;
                 goal.IsCompleted = false;
+                goal.CompletedAt = null;
 
                 _dbContext.Goals.Add(goal);
                 await _dbContext.SaveChangesAsync();

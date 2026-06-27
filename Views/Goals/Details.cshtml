@@ -4,8 +4,8 @@
     ViewData["Title"] = "Goal Details";
 
     var daysRemaining = Model.TargetDate.HasValue
-        ? (Model.TargetDate.Value.Date - DateTime.Today).Days
-        : (int?)null;
+    ? (Model.TargetDate.Value.ToDateTime(TimeOnly.MinValue).Date - DateTime.Today).Days
+    : (int?)null;
 
     var daysToComplete = Model.CompletedAt.HasValue
         ? (Model.CompletedAt.Value.Date - Model.CreatedAt.Date).Days

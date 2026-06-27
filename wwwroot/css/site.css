@@ -1003,3 +1003,19 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* ==========================================================
+   MOBILE SIDEBAR FIX
+   Forces the sidebar to slide in on mobile.
+========================================================== */
+
+@media (max-width: 768px) {
+    body.mobile-sidebar-open .app-sidebar {
+        transform: translateX(0) !important;
+        left: 0;
+    }
+
+    body:not(.mobile-sidebar-open) .app-sidebar {
+        transform: translateX(-110%) !important;
+    }
+}
